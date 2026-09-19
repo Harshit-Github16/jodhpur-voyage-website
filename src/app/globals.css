@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1D747A;
+  --color-primary-hover: #155A5F;
+  --color-primary-light: #F0F7F7;
+  --color-secondary: #C58B39;
+  --color-secondary-hover: #A9732B;
+  --color-dark: #1A2B2C;
+  --color-dark-surface: #121F20;
+  --color-brown: #4A3525;
+  --color-cream: #F8FBFB;
+  --color-beige: #E6EEEE;
+  --color-gold: #B88B4A;
+
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-nav: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+:root {
+  --color-primary: #1D747A;
+  --color-primary-hover: #155A5F;
+  --color-primary-light: #F0F7F7;
+  --color-secondary: #C58B39;
+  --color-secondary-hover: #A9732B;
+  --color-dark: #1A2B2C;
+  --color-dark-surface: #121F20;
+  --color-brown: #4A3525;
+  --color-cream: #F8FBFB;
+  --color-beige: #E6EEEE;
+  --color-gold: #B88B4A;
+  
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-nav: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  color: #2B3334;
+  background-color: #FAFCFC;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-dark);
+}
+
+/* Custom Theme Utilities */
+.bg-teal-primary { background-color: var(--color-primary); }
+.bg-teal-dark { background-color: var(--color-dark); }
+.bg-gold-secondary { background-color: var(--color-secondary); }
+.text-teal-primary { color: var(--color-primary); }
+.text-gold-secondary { color: var(--color-gold); }
+.border-teal-primary { border-color: var(--color-primary); }
+
+.font-heading { font-family: var(--font-heading); }
+.font-nav { font-family: var(--font-nav); }
+.font-body { font-family: var(--font-body); }
+
+/* Custom Buttons */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+.btn-secondary:hover {
+  background-color: var(--color-secondary-hover);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background-color: #ffffff;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  transition: all 0.2s ease-in-out;
+}
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Section Header Styling */
+.section-subtitle {
+  display: inline-block;
+  font-family: var(--font-nav);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-gold);
+}
+
+.section-subtitle::before,
+.section-subtitle::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1.5px;
+  background-color: var(--color-gold);
+  vertical-align: middle;
+  margin: 0 8px;
+}
