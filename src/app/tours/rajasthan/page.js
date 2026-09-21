@@ -4,157 +4,177 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 export default function TourRajasthanDetailPage() {
-  const [activeDay, setActiveDay] = useState(1);
-
-  const itineraryDays = [
-    {
-      day: 1,
-      title: 'Arrivée à Delhi - Accueil & Transfert Hôtel',
-      desc: 'Accueil chaleureux à l\'aéroport par votre chauffeur privé. Transfert à votre hôtel de charme et briefing avec votre assistant francophone.',
-    },
-    {
-      day: 2,
-      title: 'Visite de Delhi & Route vers Mandawa (Shekhawati)',
-      desc: 'Découverte du Jama Masjid et de la vieille ville de Delhi. Départ en véhicule privé vers le pays du Shekhawati et ses havelis peintes à ciel ouvert.',
-    },
-    {
-      day: 3,
-      title: 'Mandawa vers Bikaner - Fort Junagarh & Désert',
-      desc: 'Visite des fresques de Mandawa puis route vers Bikaner. Découverte du fort inexpugnable de Junagarh et du temple insolite de Karni Mata.',
-    },
-    {
-      day: 4,
-      title: 'Bikaner vers Jaisalmer - Cité Dorée du Désert',
-      desc: 'Traversée des paysages désertiques vers Jaisalmer. Découverte des premiers remparts dorés s\'élevant du désert du Thar.',
-    },
-    {
-      day: 5,
-      title: 'Jaisalmer Fort & Safari Méharée à Osian',
-      desc: 'Exploration du fort vivant de Jaisalmer et des havelis Patwon. En fin d\'après-midi, safari à dos de chameau au coucher du soleil.',
-    },
-    {
-      day: 6,
-      title: 'Jaisalmer vers Jodhpur - La Cité Bleue',
-      desc: 'Route vers Jodhpur. Visite du majestueux fort de Mehrangarh surplombant les maisons bleu indigo et du cénotaphe de Jaswant Thada.',
-    },
-    {
-      day: 7,
-      title: 'Jodhpur vers Udaipur via Temples de Ranakpur',
-      desc: 'Départ pour Udaipur à travers la chaîne des Aravalli. Halte au sublime temple jaïn en marbre blanc de Ranakpur aux 1444 colonnes sculptées.',
-    },
-    {
-      day: 8,
-      title: 'Udaipur - Palais de la Cité & Croisière Lac Pichola',
-      desc: 'Visite du City Palace, promenade dans les jardins des demoiselles et croisière au soleil couchant sur le lac Pichola.',
-    },
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="font-body text-[#2B3334]">
-      {/* HERO BANNER */}
-      <section className="relative h-[50vh] min-h-[420px] bg-[#1A2B2C] text-white flex items-center justify-center overflow-hidden">
+    <main>
+      {/* Tour Detail Hero */}
+      <section className="tour-detail-hero">
         <img
-          src="/images/Voyage-Jaisalmer.jpg"
-          alt="Grand Tour du Rajasthan"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-6.jpg"
+          onError={(e) => { e.target.src = '/images/image-6.jpg'; }}
+          alt="Rajasthan Detail"
+          className="tour-detail-hero-bg"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#121F20]/90 via-[#1A2B2C]/75 to-transparent"></div>
-
-        <div className="max-w-[1340px] mx-auto px-6 relative z-10 text-center space-y-3">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#C58B39] text-white shadow-md">
-            <i className="fas fa-crown"></i> Circuit Mythique 15 Jours
+        <div className="container tour-detail-hero-content">
+          <span className="hero-badge">
+            <i className="fas fa-star"></i> Incontournable
           </span>
-          <h1 className="font-heading text-3xl sm:text-5xl font-extrabold text-white">
-            Grand Tour du Rajasthan & Cités Royales
+          <h1 className="tour-detail-title">
+            Séjour au Rajasthan et Bénarès – Le Rajasthan et la rivière Gange
           </h1>
-          <p className="text-gray-200 text-xs sm:text-sm max-w-2xl mx-auto font-light">
-            Delhi • Mandawa • Bikaner • Jaisalmer • Jodhpur • Ranakpur • Udaipur • Pushkar • Jaipur • Agra (Taj Mahal)
-          </p>
+          <div className="tour-detail-meta">
+            <span><i className="far fa-clock"></i> 14 Jours / 13 Nuits</span>
+            <span><i className="fas fa-user-friends"></i> Privatif avec Chauffeur</span>
+            <span><i className="fas fa-map-marker-alt"></i> Delhi - Jaïpur - Jodhpur - Udaipur - Agra - Varanasi</span>
+          </div>
         </div>
       </section>
 
-      {/* ITINERARY CONTENT */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1340px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Main Itinerary Details */}
-          <div className="lg:col-span-2 space-y-8">
-            <div className="space-y-3">
-              <span className="section-subtitle">Programme Jour par Jour</span>
-              <h2 className="font-heading text-3xl font-bold text-[#1A2B2C]">
-                Déroulé de Votre Voyage
-              </h2>
-              <p className="text-xs text-gray-600 leading-relaxed font-light">
-                Cet itinéraire est entièrement personnalisable selon votre rythme, vos dates de vol et vos catégories d&apos;hôtels souhaitées.
-              </p>
-            </div>
+      {/* Itinerary Details */}
+      <section className="section-padding bg-white">
+        <div className="container tour-detail-grid">
+          <div>
+            <h2 className="tour-section-title">Programme au Jour le Jour</h2>
+            <p className="tour-section-desc">
+              Voici la trame de votre itinéraire. Tout peut être ajusté selon vos envies (rythme, catégories d'hôtels, visites).
+            </p>
 
-            {/* Accordion / Days List */}
-            <div className="space-y-4">
-              {itineraryDays.map((item) => (
-                <div
-                  key={item.day}
-                  className="border border-gray-100 rounded-2xl overflow-hidden shadow-sm bg-[#F8FBFB]"
-                >
-                  <button
-                    onClick={() => setActiveDay(activeDay === item.day ? null : item.day)}
-                    className="w-full p-5 text-left flex items-center justify-between font-heading font-bold text-base text-[#1A2B2C] hover:bg-[#F0F7F7] transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="w-8 h-8 rounded-full bg-[#1D747A] text-white flex items-center justify-center text-xs font-sans font-bold flex-shrink-0">
-                        {item.day}
-                      </span>
-                      <span>Jour {item.day} : {item.title}</span>
-                    </div>
-                    <i className={`fas fa-chevron-down text-xs text-[#1D747A] transition-transform ${activeDay === item.day ? 'rotate-180' : ''}`}></i>
-                  </button>
+            <div className="itinerary-timeline">
+              <div className="itinerary-day-card">
+                <strong className="itinerary-day-title">Jour 1 - 2 : Arrivée à Delhi & Visite du Vieux Delhi</strong>
+                <p className="itinerary-day-desc">
+                  Accueil à l'aéroport par notre équipe locale. Découverte de la Grande Mosquée Jama Masjid, bazar de Chandni Chowk en rickshaw et Qutub Minar.
+                </p>
+              </div>
 
-                  {activeDay === item.day && (
-                    <div className="p-5 pt-0 text-xs text-gray-600 leading-relaxed font-light border-t border-gray-100 bg-white">
-                      {item.desc}
-                    </div>
-                  )}
-                </div>
-              ))}
+              <div className="itinerary-day-card">
+                <strong className="itinerary-day-title">Jour 3 - 5 : La Cité Rose de Jaïpur & Le Fort d'Amber</strong>
+                <p className="itinerary-day-desc">
+                  Route vers Jaïpur. Visite du Fort d'Amber à dos d'éléphant ou en 4x4, le Palais des Vents (Hawa Mahal) et le City Palace.
+                </p>
+              </div>
+
+              <div className="itinerary-day-card">
+                <strong className="itinerary-day-title">Jour 6 - 7 : Jodhpur – La Cité Bleue & Fort Mehrangarh</strong>
+                <p className="itinerary-day-desc">
+                  Exploration de la majestueuse forteresse de Mehrangarh surplombant la ville bleue. Rencontre avec la communauté rurale Bishnoï.
+                </p>
+              </div>
+
+              <div className="itinerary-day-card">
+                <strong className="itinerary-day-title">Jour 8 - 9 : Agra & Le Taj Mahal</strong>
+                <p className="itinerary-day-desc">
+                  Route vers Agra avec halte à la cité fantôme de Fatehpur Sikri. Émerveillement devant le Taj Mahal au lever du soleil.
+                </p>
+              </div>
+
+              <div className="itinerary-day-card">
+                <strong className="itinerary-day-title">Jour 10 - 12 : Varanasi (Bénarès) & Le Gange Sacré</strong>
+                <p className="itinerary-day-desc">
+                  Vol intérieur pour Varanasi. Promenade en barque sur le Gange à l'aube et cérémonies de l'Aarti du soir au bord du fleuve.
+                </p>
+              </div>
+
+              <div className="itinerary-day-card">
+                <strong className="itinerary-day-title">Jour 13 - 14 : Retour à Delhi & Vol International</strong>
+                <p className="itinerary-day-desc">
+                  Retour à Delhi pour vos achats de souvenirs et transfert à l'aéroport international pour votre vol retour.
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Sidebar Booking Card */}
-          <div className="space-y-6">
-            <div className="bg-[#1A2B2C] text-white p-8 rounded-3xl space-y-6 sticky top-24 shadow-xl">
-              <h3 className="font-heading text-xl font-bold border-b border-gray-700 pb-3">
-                Réserver ou Personnaliser Ce Tour
-              </h3>
-              <ul className="space-y-3 text-xs text-gray-300">
-                <li className="flex items-center gap-2">
-                  <i className="fas fa-check text-[#C58B39]"></i>
-                  <span>Véhicule privé climatisé & Chauffeur</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <i className="fas fa-check text-[#C58B39]"></i>
-                  <span>Hébergement en Havelis de charme</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <i className="fas fa-check text-[#C58B39]"></i>
-                  <span>Guides francophones certifiés</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <i className="fas fa-check text-[#C58B39]"></i>
-                  <span>Assistance francophone 24h/7j</span>
-                </li>
+          {/* Booking Card Widget */}
+          <div>
+            <div className="booking-widget-card">
+              <div className="widget-badge-pill">
+                <i className="fas fa-crown"></i> Circuit Privatif
+              </div>
+              <h3 className="booking-widget-title" style={{ marginTop: '0.8rem' }}>Séjour sur Mesure</h3>
+              <p className="booking-widget-desc">
+                Obtenez votre itinéraire personnalisé avec chauffeur privé & guide francophone.
+              </p>
+
+              {/* Key Highlights Checklist */}
+              <ul className="sidebar-highlights-list">
+                <li><i className="fas fa-check-circle"></i> <span>Chauffeur privé dédié 24h/7j</span></li>
+                <li><i className="fas fa-check-circle"></i> <span>Hôtels de charme & Havelis du patrimoine</span></li>
+                <li><i className="fas fa-check-circle"></i> <span>Guide local francophone certifié</span></li>
+                <li><i className="fas fa-check-circle"></i> <span>Devis 100% gratuit sous 24h sans engagement</span></li>
               </ul>
 
-              <div className="pt-2">
-                <Link
-                  href="/voyage-sur-mesure"
-                  className="btn-secondary w-full text-center block text-xs font-bold uppercase py-3.5 rounded-xl shadow-lg"
+              <div className="sidebar-action-box" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginTop: '1.5rem' }}>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="btn btn-primary btn-full btn-lg"
                 >
-                  Demander Un Devis Sur Mesure
-                </Link>
+                  <i className="fas fa-paper-plane"></i> Demander un Devis Gratuit
+                </button>
+                <a
+                  href="https://wa.me/919650698669"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-whatsapp-sidebar"
+                >
+                  <i className="fab fa-whatsapp"></i> Échanger sur WhatsApp
+                </a>
+              </div>
+
+              {/* Trust Badges Inside Sidebar Card */}
+              <div className="sidebar-trust-box">
+                <div className="trust-stars">
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                </div>
+                <p><strong>Note 4.9 / 5</strong> basée sur 250+ avis Tripadvisor & Trustpilot</p>
               </div>
             </div>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="booking-modal-overlay active">
+          <div className="booking-modal">
+            <div className="booking-modal-header">
+              <button className="modal-close-btn" onClick={() => setIsModalOpen(false)} aria-label="Fermer">
+                <i className="fas fa-times"></i>
+              </button>
+              <h3 className="booking-modal-title">
+                <i className="fas fa-paper-plane"></i> Demande de Devis - Circuit Rajasthan
+              </h3>
+            </div>
+            <div className="booking-modal-body">
+              <form onSubmit={(e) => { e.preventDefault(); alert('Merci pour votre demande! Notre équipe vous contactera rapidement.'); setIsModalOpen(false); }}>
+                <div className="form-group">
+                  <label className="form-label">Nom complet *</label>
+                  <input type="text" className="form-control" required placeholder="Votre nom" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Email *</label>
+                  <input type="email" className="form-control" required placeholder="votre.email@domaine.fr" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Téléphone / WhatsApp *</label>
+                  <input type="tel" className="form-control" required placeholder="+33 6 12 34 56 78" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Commentaires & dates souhaitées *</label>
+                  <textarea className="form-control" rows="3" required placeholder="Vos attentes..."></textarea>
+                </div>
+                <button type="submit" className="modal-submit-btn">
+                  Envoyer ma demande <i className="fas fa-paper-plane"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
   );
 }

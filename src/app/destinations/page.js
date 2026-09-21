@@ -1,120 +1,163 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Destinations en Inde & Népal | Jodhpur Voyage',
-  description: 'Découvrez nos destinations phares : Rajasthan, Inde du Nord, Kerala & Inde du Sud, Népal et Bhoutan avec votre agence locale francophone.',
-};
-
 export default function DestinationsPage() {
-  const destinations = [
+  const [activeFilter, setActiveFilter] = useState('all');
+
+  const destinationsList = [
     {
-      title: 'Le Rajasthan',
-      tag: 'Incontournable',
-      img: '/images/dest-rajasthan.jpg',
+      category: 'rajasthan',
+      title: 'Rajasthan',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/07/slide3-300x176.jpg',
+      fallbackImg: '/images/dest-rajasthan.jpg',
+      excerpt: 'Cités royales, désert du Thar, forts majestueux et havelis sculptées du Shekhawati.',
       link: '/destinations/rajasthan',
-      desc: 'Palais de Maharajas, citadelles fortifiées, cité bleue de Jodhpur et désert du Thar à Jaisalmer.',
+      buttonText: 'Explorer le Rajasthan',
     },
     {
-      title: 'Inde du Nord & Taj Mahal',
-      tag: 'Culture & Histoire',
-      img: '/images/dest-tajmahal.jpg',
-      link: '/destinations',
-      desc: 'Le mythique Taj Mahal à Agra, les gats sacrés de Varanasi et l\'animation de Delhi.',
+      category: 'nord',
+      title: 'Inde du Nord & Gange',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-8.jpg',
+      fallbackImg: '/images/image-8.jpg',
+      excerpt: 'De la mythique Delhi au Taj Mahal d\'Agra jusqu\'aux cérémonies sacrées de Varanasi.',
+      link: '/destinations/rajasthan',
+      buttonText: 'Découvrir l\'Inde du Nord',
     },
     {
-      title: 'Kerala & Inde du Sud',
-      tag: 'Nature & Backwaters',
-      img: '/images/dest-kerala.jpg',
-      link: '/destinations',
-      desc: 'Havelis de Chettinad, plantations de thé de Munnar et nuits en houseboat sur les lagunes.',
+      category: 'sud',
+      title: 'Inde du Sud & Kerala',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2015/01/Kerala_Backwaters.jpg',
+      fallbackImg: '/images/dest-kerala.jpg',
+      excerpt: 'Naviguez sur les backwaters, parcourez les plantations de thé et visitez les gopurams sculptés.',
+      link: '/destinations/rajasthan',
+      buttonText: 'Découvrir l\'Inde du Sud',
     },
     {
-      title: 'Népal & Katmandou',
-      tag: 'Spiritualité & Trek',
-      img: '/images/dest-nepal.jpg',
-      link: '/destinations',
-      desc: 'Vallée de Katmandou, stupas sacrés de Bodnath, parc national de Chitwan et sommet des Annapurnas.',
+      category: 'nepal',
+      title: 'Népal',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/07/slide8-300x176.jpg',
+      fallbackImg: '/images/dest-nepal.jpg',
+      excerpt: 'La vallée de Katmandou, la cité historique de Bhaktapur et les sommets de l\'Himalaya.',
+      link: '/destinations/rajasthan',
+      buttonText: 'Découvrir le Népal',
     },
     {
-      title: 'Ladakh & Himalaya',
-      tag: 'Haute Altitude',
-      img: '/images/dest-ladakh.jpg',
-      link: '/destinations',
-      desc: 'Le Petit Tibet aux monastères perchés, cols de légende et lacs de haute altitude.',
+      category: 'nepal',
+      title: 'Ladakh & Spiti',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2026/08/voyage-au-ladakh-inde.jpg',
+      fallbackImg: '/images/dest-ladakh.jpg',
+      excerpt: 'Paysages lunaires, monastères bouddhistes perchés et cols d\'altitude exceptionnels.',
+      link: '/destinations/rajasthan',
+      buttonText: 'Découvrir le Ladakh',
     },
     {
-      title: 'Varanasi & Le Gange',
-      tag: 'Sacré & Mystique',
-      img: '/images/dest-varanasi.jpg',
-      link: '/destinations',
-      desc: 'La capitale spirituelle de l\'Inde, cérémonies Aarti au coucher du soleil et promenade en barque.',
+      category: 'nord',
+      title: 'Gujarat & Orissa',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2024/11/gujarat-voyage.jpg',
+      fallbackImg: '/images/dest-gujarat.jpg',
+      excerpt: 'Patrimoine textile, désert de sel blanc de Kutch et faune sauvage préservée.',
+      link: '/destinations/rajasthan',
+      buttonText: 'Découvrir le Gujarat',
     },
   ];
 
-  return (
-    <div className="font-body text-[#2B3334]">
-      {/* HERO BANNER */}
-      <section className="relative h-[42vh] min-h-[350px] bg-[#1A2B2C] text-white flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/dest-jodhpur.jpg"
-          alt="Destinations Banner"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#121F20]/90 via-[#1A2B2C]/75 to-transparent"></div>
+  const filteredDestinations =
+    activeFilter === 'all'
+      ? destinationsList
+      : destinationsList.filter((d) => d.category === activeFilter);
 
-        <div className="max-w-[1340px] mx-auto px-6 relative z-10 text-center space-y-3">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#C58B39] text-white shadow-md">
-            <i className="fas fa-map-marked-alt"></i> Inspirations de Voyage
-          </span>
-          <h1 className="font-heading text-4xl sm:text-5xl font-extrabold text-white">
-            Nos Destinations
-          </h1>
-          <p className="text-gray-200 text-sm max-w-2xl mx-auto font-light">
-            Explorez les merveilles architecturales, naturelles et culturelles de l&apos;Inde, du Népal et du Bhoutan.
-          </p>
+  return (
+    <main>
+      {/* Banner */}
+      <section className="destinations-hero-section">
+        <img
+          src="https://www.jodhpurvoyage.com/wp-content/uploads/2026/07/Voyage-Jaisalmer.jpg"
+          onError={(e) => { e.target.src = '/images/dest-jodhpur.jpg'; }}
+          alt="Destinations Banner"
+          className="destinations-hero-bg"
+        />
+        <div className="container destinations-hero-content">
+          <span className="hero-badge">Nos Régions</span>
+          <h1 className="destinations-hero-title">Nos Destinations d'Exception</h1>
         </div>
       </section>
 
-      {/* DESTINATIONS LIST */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1340px] mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {destinations.map((dest, idx) => (
-              <Link
-                key={idx}
-                href={dest.link}
-                className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all flex flex-col"
+      {/* Main Directory */}
+      <section className="section-padding bg-cream">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-subtitle">Explorer</span>
+            <h2 className="section-title">Où souhaitez-vous voyager ?</h2>
+            <p className="section-description">
+              Sélectionnez la région de vos rêves pour découvrir nos circuits et programmes sur mesure.
+            </p>
+          </div>
+
+          {/* INTERACTIVE FILTER TABS */}
+          <div className="filter-tabs">
+            {[
+              { id: 'all', label: 'Toutes Les Régions' },
+              { id: 'rajasthan', label: 'Rajasthan' },
+              { id: 'nord', label: 'Inde du Nord' },
+              { id: 'sud', label: 'Inde du Sud' },
+              { id: 'nepal', label: 'Népal & Himalaya' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveFilter(tab.id)}
+                className={`filter-btn ${activeFilter === tab.id ? 'active' : ''}`}
               >
-                <div className="relative h-60 overflow-hidden">
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="tours-grid">
+            {filteredDestinations.map((dest, idx) => (
+              <div className="tour-card" key={idx}>
+                <Link href={dest.link} className="tour-card-image-wrap" title={dest.buttonText}>
                   <img
-                    src={dest.img}
+                    src={dest.image}
+                    onError={(e) => { e.target.src = dest.fallbackImg; }}
                     alt={dest.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className="absolute top-3 left-3 bg-[#1D747A] text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full">
-                    {dest.tag}
-                  </span>
-                </div>
-                <div className="p-6 space-y-2 flex-1 flex flex-col justify-between">
+                </Link>
+                <div className="tour-card-body" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
-                    <h3 className="font-heading font-bold text-xl text-[#1A2B2C] group-hover:text-[#1D747A] transition-colors">
-                      {dest.title}
+                    <h3 className="tour-card-title">
+                      <Link href={dest.link}>{dest.title}</Link>
                     </h3>
-                    <p className="text-xs text-gray-500 mt-2 line-clamp-3">
-                      {dest.desc}
-                    </p>
+                    <p className="tour-card-excerpt">{dest.excerpt}</p>
                   </div>
-                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-[#1D747A]">
-                    <span>Découvrir la Destination</span>
-                    <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                  <div style={{ marginTop: '1.5rem' }}>
+                    <Link href={dest.link} className="btn btn-primary btn-sm btn-full">
+                      {dest.buttonText}
+                    </Link>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
       </section>
-    </div>
+
+      {/* CTA Banner */}
+      <section className="cta-banner-section">
+        <img
+          src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-9.jpg"
+          onError={(e) => { e.target.src = '/images/dest-rajasthan.jpg'; }}
+          alt="CTA Background"
+          className="cta-bg-image"
+        />
+        <div className="container cta-content">
+          <h2 className="cta-title">Votre voyage sur mesure en Inde & Népal</h2>
+          <Link href="/voyage-sur-mesure" className="btn btn-primary btn-lg">
+            Créer mon voyage
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }

@@ -1,111 +1,153 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Blog Voyage Inde & Népal | Conseils & Guides de Voyage | Jodhpur Voyage',
-  description: 'Retrouvez nos articles de blog, conseils pratiques, guides de voyage et secrets locaux pour préparer votre séjour au Rajasthan et en Inde.',
-};
-
 export default function BlogPage() {
-  const posts = [
+  const [filter, setFilter] = useState('all');
+
+  const articles = [
     {
-      title: 'Les 7 Ruelles Bleues Secrètes de Jodhpur à Photographier absolument',
-      category: 'Guide Photo',
-      date: '02 Septembre 2026',
-      readTime: '5 min de lecture',
-      img: '/images/dest-jodhpur.jpg',
-      excerpt: 'Explorez le quartier historique de Navchokiya, ses façades indigo, le puits à degrés Toorji Ka Jhalra et ses toits secrets.',
-      slug: 'detail',
+      id: 1,
+      category: 'rajasthan',
+      badge: 'Rajasthan',
+      title: 'Jaisalmer, la ville dorée du désert du Thar',
+      excerpt: 'On l\'appelle la cité dorée en raison de la couleur ocre de sa forteresse et de ses havelis.',
+      img: 'https://www.jodhpurvoyage.com/wp-content/uploads/2026/07/Voyage-Jaisalmer.jpg',
+      fallbackImg: '/images/dest-jaisalmer.jpg',
     },
     {
-      title: 'Guide Complet du Safari Désert à Osian : Dunes, Chameaux & Musique Folk',
-      category: 'Aventure Désert',
-      date: '05 Septembre 2026',
-      readTime: '6 min de lecture',
-      img: '/images/Voyage-Jaisalmer.jpg',
-      excerpt: 'Tout ce qu\'il faut savoir pour organiser une escapade désertique à Osian près de Jodhpur loin de la foule.',
-      slug: 'detail',
+      id: 2,
+      category: 'spiritualite nord',
+      badge: 'Spiritualité',
+      title: 'Les ghats mystiques de Varanasi le long du Gange',
+      excerpt: 'Découvrez la vie spirituelle et les cérémonies ancestrales sur les berges du fleuve sacré.',
+      img: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-8.jpg',
+      fallbackImg: '/images/dest-rajasthan.jpg',
     },
     {
-      title: 'Saveurs de Jodhpur : Le Guide de la Street Food Marwari',
-      category: 'Gastronomie',
-      date: '07 Septembre 2026',
-      readTime: '4 min de lecture',
-      img: '/images/dest-rajasthan.jpg',
-      excerpt: 'Goûtez aux fameux Pyaaz Kachori, Mirchi Vada et à la légendaire Makhaniya Lassi de la Clock Tower.',
-      slug: 'detail',
+      id: 3,
+      category: 'nepal',
+      badge: 'Népal',
+      title: 'Guide complet pour réussir son trek dans l\'Himalaya',
+      excerpt: 'De Pokhara à Katmandou, tout savoir sur la préparation et l\'encadrement des randonnées.',
+      img: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/07/slide8-300x176.jpg',
+      fallbackImg: '/images/dest-jodhpur.jpg',
+    },
+    {
+      id: 4,
+      category: 'rajasthan',
+      badge: 'Rajasthan',
+      title: 'Jaipur : Les secrets de la Cité Rose des Maharajas',
+      excerpt: 'Visitez le Hawa Mahal, le Fort d\'Amber et les marchés colorés de la capitale du Rajasthan.',
+      img: 'https://www.jodhpurvoyage.com/wp-content/uploads/2024/07/jaipur-travel.jpg',
+      fallbackImg: '/images/dest-jaipur.jpg',
+    },
+    {
+      id: 5,
+      category: 'nord',
+      badge: 'Inde du Nord',
+      title: 'Rishikesh : Capitale mondiale du yoga au pied de l\'Himalaya',
+      excerpt: 'Immergez-vous dans la sérénité des ashrams et l\'énergie pure des cérémonies Aarti du soir.',
+      img: 'https://www.jodhpurvoyage.com/wp-content/uploads/2016/07/voyage-en-inde-Rishikesh.jpg.jpg',
+      fallbackImg: '/images/dest-jodhpur.jpg',
+    },
+    {
+      id: 6,
+      category: 'nord',
+      badge: 'Ladakh',
+      title: 'Ladakh : Traversée du Petit Tibet et des cols mythiques',
+      excerpt: 'Découvrez les monastères bouddhistes perchés et les lacs d\'altitude aux eaux turquoise.',
+      img: 'https://www.jodhpurvoyage.com/wp-content/uploads/2026/08/voyage-au-ladakh-inde.jpg',
+      fallbackImg: '/images/dest-jodhpur.jpg',
     },
   ];
 
-  return (
-    <div className="font-body text-[#2B3334]">
-      {/* HERO BANNER */}
-      <section className="relative h-[42vh] min-h-[350px] bg-[#1A2B2C] text-white flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/dest-jodhpur.jpg"
-          alt="Blog Voyage Banner"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#121F20]/90 via-[#1A2B2C]/75 to-transparent"></div>
+  const filteredArticles = articles.filter((art) => {
+    if (filter === 'all') return true;
+    return art.category.includes(filter);
+  });
 
-        <div className="max-w-[1340px] mx-auto px-6 relative z-10 text-center space-y-3">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#C58B39] text-white shadow-md">
-            <i className="fas fa-newspaper"></i> Blog & Conseils de Voyage
-          </span>
-          <h1 className="font-heading text-4xl sm:text-5xl font-extrabold text-white">
-            Carnets de Voyage
-          </h1>
-          <p className="text-gray-200 text-sm max-w-2xl mx-auto font-light">
-            Conseils d&apos;experts, secrets locaux et récits d&apos;immersion culturelle pour préparer votre aventure en Inde.
+  return (
+    <>
+      {/* Hero Section */}
+      <section className="blog-hero-section">
+        <img
+          src="https://www.jodhpurvoyage.com/wp-content/uploads/2026/07/Voyage-Jaisalmer.jpg"
+          alt="Blog Banner"
+          className="blog-hero-bg"
+          onError={(e) => { e.target.src = '/images/dest-jaisalmer.jpg'; }}
+        />
+        <div className="container blog-hero-content">
+          <span className="hero-badge"><i className="fas fa-pen-nib"></i> Carnets de Voyage</span>
+          <h1 className="blog-hero-title">Notre Blog & Inédits</h1>
+          <p className="blog-hero-desc">
+            Conseils d'experts, guides culturels et secrets d'itinéraires pour votre voyage en Inde et au Népal.
           </p>
         </div>
       </section>
 
-      {/* BLOG POSTS GRID */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1340px] mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {posts.map((post, idx) => (
-              <article key={idx} className="bg-[#F8FBFB] rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
-                <div className="relative h-56 overflow-hidden">
+      {/* INTERACTIVE CATEGORY FILTER TABS */}
+      <section className="section-padding bg-cream">
+        <div className="container">
+          <div className="filter-tabs">
+            <button
+              className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
+              onClick={() => setFilter('all')}
+            >
+              Tous les articles
+            </button>
+            <button
+              className={`filter-btn ${filter === 'rajasthan' ? 'active' : ''}`}
+              onClick={() => setFilter('rajasthan')}
+            >
+              Rajasthan
+            </button>
+            <button
+              className={`filter-btn ${filter === 'nord' ? 'active' : ''}`}
+              onClick={() => setFilter('nord')}
+            >
+              Inde du Nord
+            </button>
+            <button
+              className={`filter-btn ${filter === 'spiritualite' ? 'active' : ''}`}
+              onClick={() => setFilter('spiritualite')}
+            >
+              Spiritualité
+            </button>
+            <button
+              className={`filter-btn ${filter === 'nepal' ? 'active' : ''}`}
+              onClick={() => setFilter('nepal')}
+            >
+              Népal
+            </button>
+          </div>
+
+          <div className="tours-grid">
+            {filteredArticles.map((art) => (
+              <div key={art.id} className="tour-card">
+                <div className="tour-card-image-wrap">
                   <img
-                    src={post.img}
-                    alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    src={art.img}
+                    alt={art.title}
+                    onError={(e) => { e.target.src = art.fallbackImg; }}
                   />
-                  <span className="absolute top-3 left-3 bg-[#1D747A] text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full">
-                    {post.category}
-                  </span>
+                  <span className="tour-card-badge">{art.badge}</span>
                 </div>
-
-                <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-3 text-[11px] text-gray-400 mb-2">
-                      <span><i className="far fa-calendar-alt text-[#C58B39]"></i> {post.date}</span>
-                      <span>•</span>
-                      <span><i className="far fa-clock text-[#1D747A]"></i> {post.readTime}</span>
-                    </div>
-
-                    <h3 className="font-heading font-bold text-xl text-[#1A2B2C] group-hover:text-[#1D747A] transition-colors leading-snug">
-                      {post.title}
-                    </h3>
-                    <p className="text-xs text-gray-500 mt-2 line-clamp-3 font-light">
-                      {post.excerpt}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-gray-200 flex items-center justify-between text-xs font-bold text-[#1D747A]">
-                    <Link href={`/blog/${post.slug}`} className="hover:text-[#C58B39] flex items-center gap-2">
-                      <span>Lire L&apos;Article</span>
-                      <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                    </Link>
-                  </div>
+                <div className="tour-card-body">
+                  <div className="mega-blog-meta"><i className="far fa-calendar"></i> Publié récemment</div>
+                  <h3 className="tour-card-title">{art.title}</h3>
+                  <p className="tour-card-excerpt">{art.excerpt}</p>
+                  <Link href="/blog/detail" className="btn btn-sm btn-primary mt-auto">
+                    Lire l'article
+                  </Link>
                 </div>
-              </article>
+              </div>
             ))}
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
+

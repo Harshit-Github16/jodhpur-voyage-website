@@ -1,146 +1,187 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Qui Sommes Nous | Jodhpur Voyage - Agence Locale Francophone en Inde',
-  description: 'Découvrez l\'histoire et l\'équipe de Jodhpur Voyage, agence de voyage locale francophone spécialisée dans les circuits sur mesure au Rajasthan, Inde et Népal depuis plus de 20 ans.',
-};
-
 export default function QuiNousSommesPage() {
   return (
-    <div className="font-body text-[#2B3334]">
+    <main>
       {/* HERO BANNER */}
-      <section className="relative h-[45vh] min-h-[380px] bg-[#1A2B2C] text-white flex items-center justify-center overflow-hidden">
+      <section className="about-hero-section">
         <img
-          src="/images/dest-rajasthan.jpg"
+          src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-12.jpg"
+          onError={(e) => { e.target.src = '/images/image-12.jpg'; }}
           alt="Qui Sommes Nous Banner"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="about-hero-bg"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#121F20]/90 via-[#1A2B2C]/75 to-transparent"></div>
-
-        <div className="max-w-[1340px] mx-auto px-6 relative z-10 text-center space-y-3">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#C58B39] text-white shadow-md">
+        <div className="container about-hero-content">
+          <span className="hero-badge">
             <i className="fas fa-compass"></i> Notre Histoire & Nos Engagements
           </span>
-          <h1 className="font-heading text-4xl sm:text-5xl font-extrabold text-white">
-            Qui Sommes Nous ?
-          </h1>
-          <p className="text-gray-200 text-sm max-w-2xl mx-auto font-light">
-            Agence de voyage locale francophone en Inde et au Népal. Découvrez l&apos;équipe passionnée et l&apos;histoire qui anime Jodhpur Voyage.
+          <h1 className="about-hero-title">Qui Sommes Nous ?</h1>
+          <p className="about-hero-desc">
+            Agence de voyage locale francophone en Inde et au Népal. Découvrez l'équipe passionnée et l'histoire qui anime Jodhpur Voyage depuis plus de 20 ans.
           </p>
         </div>
       </section>
 
-      {/* ABOUT CONTENT */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1340px] mx-auto px-6 space-y-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-4">
+      {/* MAIN ABOUT CONTENT SECTION */}
+      <section className="section-padding bg-white">
+        <div className="container">
+          <div className="about-grid">
+            <div>
               <span className="section-subtitle">Notre Identité</span>
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-[#1A2B2C]">
-                Une Agence Locale Francophone et Passionnée
-              </h2>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                <strong>Jodhpur Voyage</strong> est une agence de voyage locale basée au Rajasthan en Inde. Experte dans le tourisme avec une parfaite connaissance du pays, nous souhaitons vous faire découvrir l’Inde et le Népal. Enregistrée au ministère du tourisme du Rajasthan, nous sommes en mesure de vous assurer toutes les prestations nécessaires dont vous aurez besoin durant votre séjour.
-              </p>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Nous vous proposons des forfaits de voyages, mais nous sommes aussi à votre disposition pour élaborer des circuits personnalisés. Notre agence est spécialisée dans le{' '}
-                <Link href="/voyage-sur-mesure" className="text-[#1D747A] font-bold underline">
-                  voyage sur mesure
-                </Link>{' '}
-                et organise des voyages depuis plus de 20 ans. Nous sommes une agence locale disponible, réactive et à l’écoute de toutes les demandes des voyageurs.
-              </p>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Une fois sur place, nous restons à votre disposition et nous nous assurons du bon déroulement de votre voyage. Nous avons à cœur de vous transmettre notre passion et de vous faire découvrir notre pays autrement.
-              </p>
+              <h2 className="section-title about-title">Une Agence Locale Francophone et Passionnée</h2>
+              <div className="about-text">
+                <p className="contact-lead-desc">
+                  <strong>Jodhpur Voyage</strong> est une agence de voyage locale basée au Rajasthan en Inde. Experte dans le tourisme avec une parfaite connaissance du pays, nous souhaitons vous faire découvrir l'Inde et le Népal. Enregistrée au ministère du tourisme du Rajasthan, nous sommes en mesure de vous assurer toutes les prestations nécessaires dont vous aurez besoin durant votre séjour.
+                </p>
+                <p className="contact-lead-desc">
+                  Nous vous proposons des forfaits de voyages, mais nous sommes aussi à votre disposition pour élaborer des circuits personnalisés. Notre agence est spécialisée dans le <strong><Link href="/voyage-sur-mesure" className="footer-contact-link">voyage sur mesure</Link></strong> et organise des voyages depuis plus de 20 ans. Nous sommes une agence locale donc disponible, réactive et à l'écoute de toutes les demandes des voyageurs.
+                </p>
+                <p>
+                  Une fois sur place, nous restons à votre disposition et nous nous assurons du bon déroulement de votre voyage. Nous avons à cœur de vous transmettre notre passion et de vous faire découvrir notre pays autrement.
+                </p>
+              </div>
             </div>
 
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[420px]">
+            <div className="about-image-wrapper">
               <img
-                src="/images/dest-jodhpur.jpg"
+                src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-9.jpg"
+                onError={(e) => { e.target.src = '/images/image-9.jpg'; }}
                 alt="Jodhpur Voyage Architecture"
-                className="w-full h-full object-cover"
+                className="about-image"
               />
             </div>
           </div>
 
           {/* FOUNDER'S NOTE SECTION (MR SINGH) */}
-          <div className="bg-[#F8FBFB] p-8 sm:p-12 rounded-3xl border border-gray-100 shadow-sm">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              <div className="text-center lg:border-r border-gray-200 lg:pr-8">
+          <div className="founder-card" id="valeurs">
+            <div className="founder-grid">
+              <div className="founder-img-col">
                 <img
-                  src="/images/image-12.jpg"
+                  src="https://www.jodhpurvoyage.com/wp-content/uploads/2016/06/Jodhpur_Voyage_Inde-276x300.jpg"
+                  onError={(e) => { e.target.src = '/images/dest-jodhpur.jpg'; }}
                   alt="Mr Singh - Fondateur Jodhpur Voyage"
-                  className="w-40 h-40 rounded-full object-cover mx-auto shadow-xl border-4 border-white mb-4"
+                  className="founder-img"
                 />
-                <h3 className="font-heading font-bold text-xl text-[#1A2B2C]">Mr Singh</h3>
-                <span className="text-xs text-[#C58B39] font-bold uppercase tracking-wider">
-                  Fondateur & Interlocuteur Principal
-                </span>
+                <h3 className="founder-name">Mr Singh</h3>
+                <span className="founder-role">Fondateur & Interlocuteur Principal</span>
               </div>
 
-              <div className="lg:col-span-2 space-y-4">
-                <span className="section-subtitle">
-                  <i className="fas fa-quote-left mr-2"></i> Le Mot du Fondateur
-                </span>
-                <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#1A2B2C]">
-                  Notre Philosophie du Voyage
-                </h2>
+              <div>
+                <span className="section-subtitle"><i className="fas fa-quote-left"></i> Le Mot du Fondateur</span>
+                <h2 className="section-title about-title">Notre Philosophie</h2>
 
-                <blockquote className="italic text-gray-700 border-l-4 border-[#1D747A] pl-4 text-sm leading-relaxed">
-                  « Passionné par mon pays et sa culture, j&apos;ai obtenu mon master de tourisme à l’université de Jodhpur et j&apos;ai débuté en tant que guide francophone pour les agences de voyages de Delhi. À la suite d’une rencontre avec une française et les liens d’amitié aidant, j&apos;ai pu réaliser mon rêve et créer ma propre agence de voyage. Aujourd&apos;hui, j&apos;ai le plaisir de partager ce rêve avec mon équipe et mes clients. »
+                <blockquote className="founder-quote">
+                  « Passionné par mon pays et sa culture, j'ai obtenu mon master de tourisme à l'université de Jodhpur et j'ai débuté en tant que guide francophone pour les agences de voyages de Delhi. À la suite d'une rencontre avec une française et les liens d'amitié aidant, j'ai pu réaliser mon rêve et créer ma propre agence de voyage. Aujourd'hui, j'ai le plaisir de partager ce rêve avec mon équipe et mes clients. »
                 </blockquote>
 
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                  Le projet naît d&apos;un désir de s&apos;ouvrir au monde et de partager la culture et les paysages de l&apos;Inde. Notre pays, mystérieux et paradoxal, fascine par sa culture, sa diversité, la coexistence entre ses multiples religions, ses centaines de langues et dialectes.
+                <p className="founder-desc">
+                  Le projet naît d'un désir de s'ouvrir au monde et de partager la culture et les paysages de l'Inde. Notre pays, mystérieux et paradoxal, fascine par sa culture, sa diversité, la coexistence entre ses multiples religions, ses centaines de langues et dialectes. Ses paysages très variés entre plaines, déserts, montagnes et océans continuent de nous fasciner tout autant que vous.
+                </p>
+
+                <p className="founder-desc">
+                  Nous savons que vous pourrez parfois être surpris, mais nous sommes persuadés que vous ne resterez pas indifférent. C'est avec une grande passion, un professionnalisme et un amour profond pour l'Inde que notre équipe vous fait découvrir ce pays.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* PILLARS OF COMMITMENT */}
-          <div className="pt-6">
-            <div className="text-center max-w-2xl mx-auto mb-12">
+          {/* PILLARS OF COMMITMENT GRID */}
+          <div id="engagement">
+            <div className="section-header">
               <span className="section-subtitle">Pourquoi Nous Choisir</span>
-              <h2 className="font-heading text-3xl font-bold text-[#1A2B2C] mt-2">
-                Les Piliers de Notre Engagement
-              </h2>
+              <h2 className="section-title">Les Piliers de Notre Engagement</h2>
+              <p className="section-description">Un service d'exception pour un voyage en toute sérénité.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 rounded-xl bg-[#1D747A]/10 text-[#1D747A] flex items-center justify-center text-xl mb-4">
+            <div className="pillars-grid">
+              {/* Pillar 1 */}
+              <div className="pillar-card">
+                <div className="pillar-icon-circle">
                   <i className="fas fa-tag"></i>
                 </div>
-                <h3 className="font-heading font-bold text-lg text-[#1A2B2C] mb-2">Direct Producteur</h3>
-                <p className="text-xs text-gray-500">
-                  Prix directs négociés et sans intermédiaire pour un rapport qualité/prix garanti.
+                <h3 className="pillar-title">En Direct & Sans Intermédiaire</h3>
+                <p className="pillar-desc">
+                  Nous vous proposons des prix en direct, négociés et sans intermédiaires, vous garantissant le meilleur rapport qualité-prix.
                 </p>
               </div>
 
-              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 rounded-xl bg-[#C58B39]/10 text-[#C58B39] flex items-center justify-center text-xl mb-4">
+              {/* Pillar 2 */}
+              <div className="pillar-card">
+                <div className="pillar-icon-circle">
                   <i className="fas fa-hotel"></i>
                 </div>
-                <h3 className="font-heading font-bold text-lg text-[#1A2B2C] mb-2">Havelis & Charme</h3>
-                <p className="text-xs text-gray-500">
-                  Maisons de maître traditionnelles restaurées en demeure de charme authentique.
+                <h3 className="pillar-title">Hébergements de Charme & Havelis</h3>
+                <p className="pillar-desc">
+                  Nous vous conseillons les Havelis, traditionnelles maisons de maître restaurées en hôtels de charme pour préserver l'âme authentique d'antan.
                 </p>
               </div>
 
-              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 rounded-xl bg-[#1D747A]/10 text-[#1D747A] flex items-center justify-center text-xl mb-4">
+              {/* Pillar 3 */}
+              <div className="pillar-card">
+                <div className="pillar-icon-circle">
+                  <i className="fas fa-car-side"></i>
+                </div>
+                <h3 className="pillar-title">Transport & Chauffeurs Privés</h3>
+                <p className="pillar-desc">
+                  Véhicules récents et chauffeurs expérimentés pour vous permettre de garder toute votre quiétude et sécurité durant les trajets.
+                </p>
+              </div>
+
+              {/* Pillar 4 */}
+              <div className="pillar-card">
+                <div className="pillar-icon-circle">
                   <i className="fas fa-user-tie"></i>
                 </div>
-                <h3 className="font-heading font-bold text-lg text-[#1A2B2C] mb-2">Guides Certifiés</h3>
-                <p className="text-xs text-gray-500">
-                  Guides francophones certifiés par le ministère pour des visites culturelles d&apos;exception.
+                <h3 className="pillar-title">Guides Francophones Certifiés</h3>
+                <p className="pillar-desc">
+                  Guides francophones officiels qui assurent l'explication culturelle et vous protègent des abus commerciaux sur les sites.
+                </p>
+              </div>
+
+              {/* Pillar 5 */}
+              <div className="pillar-card">
+                <div className="pillar-icon-circle">
+                  <i className="fas fa-sliders-h"></i>
+                </div>
+                <h3 className="pillar-title">Circuits 100% Personnalisables</h3>
+                <p className="pillar-desc">
+                  Chaque voyageur est unique : nous ajustons le rythme, la durée et les étapes selon vos envies spécifiques.
+                </p>
+              </div>
+
+              {/* Pillar 6 */}
+              <div className="pillar-card">
+                <div className="pillar-icon-circle">
+                  <i className="fas fa-headset"></i>
+                </div>
+                <h3 className="pillar-title">Assistance & Suivi 24h/7j</h3>
+                <p className="pillar-desc">
+                  Une équipe locale réceptive disponible à tout moment sur place en Inde pour répondre à la moindre demande.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* CTA BANNER */}
+      <section className="cta-banner-section">
+        <img
+          src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-8.jpg"
+          onError={(e) => { e.target.src = '/images/image-8.jpg'; }}
+          alt="CTA Background"
+          className="cta-bg-image"
+        />
+        <div className="container cta-content">
+          <h2 className="cta-title">Envie de réaliser le voyage de vos rêves en Inde ?</h2>
+          <Link href="/voyage-sur-mesure" className="btn btn-primary btn-lg">
+            Demander un Devis Sur Mesure
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }

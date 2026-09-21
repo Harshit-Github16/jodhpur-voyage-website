@@ -315,7 +315,7 @@ export default function Header() {
                     </div>
 
                     <div>
-                      <div className="mega-column-title"><i class="fas fa-heartbeat"></i> Santé & Budget</div>
+                      <div className="mega-column-title"><i className="fas fa-heartbeat"></i> Santé & Budget</div>
                       <ul className="mega-link-list">
                         <li><Link href="/infos-pratiques#sante" className="mega-link-item"><i className="fas fa-first-aid"></i> Santé & Vaccins</Link></li>
                         <li><Link href="/infos-pratiques#monnaie" className="mega-link-item"><i className="fas fa-coins"></i> Monnaie & Change (Rupee)</Link></li>

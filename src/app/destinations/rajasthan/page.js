@@ -1,114 +1,214 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Destination Rajasthan | Circuit Palais & Désert du Thar | Jodhpur Voyage',
-  description: 'Découvrez le Rajasthan avec Jodhpur Voyage : Jaïpur la ville rose, Jodhpur la cité bleue, Jaisalmer la ville dorée et Udaipur la romantique.',
-};
-
 export default function DestinationRajasthanPage() {
-  const cities = [
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTourTitle, setSelectedTourTitle] = useState('');
+  const [selectedTourDuration, setSelectedTourDuration] = useState('');
+
+  const rajasthanPackages = [
     {
-      name: 'Jodhpur',
-      subtitle: 'La Cité Bleue & Fort Mehrangarh',
-      img: '/images/dest-jodhpur.jpg',
-      desc: 'Maisons indigo au pied de la citadelle de Mehrangarh, ruelles médiévales et marchés d\'épices animés.',
+      title: 'Séjour au Rajasthan et Bénarès – Le Rajasthan et la rivière Gange',
+      badge: 'Populaire',
+      duration: '14 Jours / 13 Nuits',
+      location: 'Rajasthan & Rivière Gange',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-6.jpg',
+      fallbackImg: '/images/image-6.jpg',
+      excerpt: 'Un voyage d\'exception alliant la féerie des palais des Maharajas (Delhi, Jaïpur, Jodhpur, Udaipur, Agra) et la spiritualité sacrée de Varanasi sur les bords du Gange.',
+      link: '/tours/rajasthan',
     },
     {
-      name: 'Jaisalmer',
-      subtitle: 'La Cité Dorée & Safari Désert',
-      img: '/images/Voyage-Jaisalmer.jpg',
-      desc: 'Fort habité en grès jaune, havelis sculptées et nuit sous les étoiles dans les dunes d\'Osian & Sam.',
+      title: 'Voyage au Rajasthan Hors des Sentiers Battus',
+      badge: 'Authentique',
+      duration: '15 Jours / 14 Nuits',
+      location: 'Villages & Forts Ruraux',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2018/05/Voyage-Rajasthan-Inde.jpg',
+      fallbackImg: '/images/dest-rajasthan.jpg',
+      excerpt: 'Immergez-vous dans la vraie vie rurale indienne, dormez dans des havelis de charme et découvrez des palais secrets d\'anciens maharajas loin des sentiers battus.',
+      link: '/tours/rajasthan',
     },
     {
-      name: 'Jaipur',
-      subtitle: 'La Ville Rose du Rajasthan',
-      img: '/images/jaipur-travel.jpg',
-      desc: 'Le Palais des Vents (Hawa Mahal), la majestueuse forteresse d\'Amber et l\'observatoire Jantar Mantar.',
+      title: 'Le Grand Tour des Cités Royales du Rajasthan',
+      badge: 'Incontournable',
+      duration: '12 Jours / 11 Nuits',
+      location: 'Jaïpur, Jodhpur & Jaisalmer',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2026/07/Voyage-Jaisalmer.jpg',
+      fallbackImg: '/images/dest-jodhpur.jpg',
+      excerpt: 'Un itinéraire grandiose à travers la Ville Rose de Jaïpur, la Ville Bleue de Jodhpur et la Cité Dorée de Jaisalmer aux portes du grand désert du Thar.',
+      link: '/tours/rajasthan',
     },
     {
-      name: 'Udaipur',
-      subtitle: 'La Venise de l\'Orient',
-      img: '/images/dest-rajasthan.jpg',
-      desc: 'Croisières romantiques sur le lac Pichola, palais flottants et demeures princières.',
+      title: 'Rajasthan Romantique & Lacs d\'Udaipur',
+      badge: 'Charme & Romantisme',
+      duration: '10 Jours / 9 Nuits',
+      location: 'Udaipur, Ranakpur & Pushkar',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-12.jpg',
+      fallbackImg: '/images/image-12.jpg',
+      excerpt: 'Une traversée poétique des palais sur le lac Pichola à Udaipur, des temples d\'Adinath sculptés à Ranakpur et des rives sacrées du lac de Pushkar.',
+      link: '/tours/rajasthan',
+    },
+    {
+      title: 'Désert du Thar & Nuits en Bivouac à Jaisalmer',
+      badge: 'Aventure Désert',
+      duration: '8 Jours / 7 Nuits',
+      location: 'Jaisalmer & Désert du Thar',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-9.jpg',
+      fallbackImg: '/images/image-9.jpg',
+      excerpt: 'Une expérience féerique dans les sables d\'or du désert du Thar : promenade à dos de chameau, nuit sous le ciel étoilé et visite de la citadelle vivante.',
+      link: '/tours/rajasthan',
+    },
+    {
+      title: 'Splendeurs des Palais & Havelis du Shekhawati',
+      badge: 'Culture & Patrimoine',
+      duration: '10 Jours / 9 Nuits',
+      location: 'Mandawa, Nawalgarh & Shekhawati',
+      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-7.jpg',
+      fallbackImg: '/images/dest-rajasthan.jpg',
+      excerpt: 'Découvrez la plus vaste galerie d\'art à ciel ouvert au monde, réputée pour ses demeures marchandes peintes à la main et ses villages authentiques.',
+      link: '/tours/rajasthan',
     },
   ];
 
-  return (
-    <div className="font-body text-[#2B3334]">
-      {/* HERO BANNER */}
-      <section className="relative h-[48vh] min-h-[400px] bg-[#1A2B2C] text-white flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/dest-rajasthan.jpg"
-          alt="Destination Rajasthan"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#121F20]/90 via-[#1A2B2C]/75 to-transparent"></div>
+  const handleOpenModal = (title, duration) => {
+    setSelectedTourTitle(title);
+    setSelectedTourDuration(duration);
+    setIsModalOpen(true);
+  };
 
-        <div className="max-w-[1340px] mx-auto px-6 relative z-10 text-center space-y-3">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#C58B39] text-white shadow-md">
-            <i className="fas fa-crown"></i> Terre des Maharajas
+  return (
+    <main>
+      {/* Hero Section */}
+      <section className="rajasthan-hero-section">
+        <img
+          src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-9.jpg"
+          onError={(e) => { e.target.src = '/images/dest-rajasthan.jpg'; }}
+          alt="Rajasthan Header"
+          className="rajasthan-hero-bg"
+        />
+        <div className="container rajasthan-hero-content">
+          <span className="hero-badge">
+            <i className="fas fa-crown"></i> La Terre des Maharajas
           </span>
-          <h1 className="font-heading text-4xl sm:text-6xl font-extrabold text-white">
-            Le Rajasthan
-          </h1>
-          <p className="text-gray-200 text-sm sm:text-base max-w-2xl mx-auto font-light">
-            Plongez au cœur des palais princiers, des citadelles légendaires et des déserts envoûtants du Rajasthan avec notre agence locale.
+          <h1 className="rajasthan-hero-title">Voyage au Rajasthan</h1>
+          <p className="rajasthan-hero-desc">
+            Palais d'opulence, forteresses imprenables, désert d'or et cités colorées. Découvrez la région phare de l'Inde avec nos guides et chauffeurs locaux.
           </p>
         </div>
       </section>
 
-      {/* OVERVIEW SECTION */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1340px] mx-auto px-6 space-y-16">
-          <div className="max-w-3xl mx-auto text-center space-y-4">
-            <span className="section-subtitle">L&apos;Émotion Rajputana</span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-[#1A2B2C]">
-              Voyager au Rajasthan Sur Mesure
-            </h2>
-            <p className="text-sm text-gray-600 leading-relaxed font-light">
-              Le Rajasthan est sans doute l&apos;État le plus mythique d&apos;Inde. De la cité rose de Jaipur aux dunes du désert du Thar à Jaisalmer, en passant par les ruelles bleu indigo de Jodhpur et les lacs d&apos;Udaipur, vivez une immersion féerique façonnée selon vos envies.
-            </p>
+      {/* Tour Packages Grid */}
+      <section className="section-padding bg-cream">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-subtitle">Circuits & Offres Spéciales</span>
+            <h2 className="section-title">Nos Packages de Voyage au Rajasthan</h2>
+            <p className="section-description">Sélectionnez un circuit privatif sur mesure et découvrez son itinéraire complet.</p>
           </div>
 
-          {/* CITIES GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {cities.map((city, idx) => (
-              <div key={idx} className="bg-[#F8FBFB] rounded-2xl overflow-hidden border border-gray-100 shadow-sm flex flex-col sm:flex-row items-center">
-                <img
-                  src={city.img}
-                  alt={city.name}
-                  className="w-full sm:w-1/2 h-56 object-cover"
-                />
-                <div className="p-6 space-y-2 sm:w-1/2">
-                  <span className="text-[10px] font-bold uppercase text-[#C58B39] tracking-wider block">
-                    {city.subtitle}
-                  </span>
-                  <h3 className="font-heading font-bold text-xl text-[#1A2B2C]">
-                    {city.name}
-                  </h3>
-                  <p className="text-xs text-gray-500 font-light">
-                    {city.desc}
-                  </p>
+          <div className="tours-grid">
+            {rajasthanPackages.map((pkg, idx) => (
+              <div className="tour-card" key={idx}>
+                <Link href={pkg.link} className="tour-card-image-wrap" title="Voir l'itinéraire du voyage">
+                  <img
+                    src={pkg.image}
+                    onError={(e) => { e.target.src = pkg.fallbackImg; }}
+                    alt={pkg.title}
+                  />
+                  <span className="tour-card-badge">{pkg.badge}</span>
+                  <div className="tour-card-duration">
+                    <i className="far fa-clock"></i> {pkg.duration}
+                  </div>
+                </Link>
+                <div className="tour-card-body" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <div className="tour-card-location">
+                      <i className="fas fa-map-marker-alt"></i> {pkg.location}
+                    </div>
+                    <h3 className="tour-card-title">
+                      <Link href={pkg.link}>{pkg.title}</Link>
+                    </h3>
+                    <p className="tour-card-excerpt">{pkg.excerpt}</p>
+                  </div>
+                  <div className="tour-card-footer mt-auto" style={{ paddingTop: '1rem', borderTop: '1px solid #EBF2F2', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <Link href={pkg.link} className="btn btn-sm btn-outline">
+                      Voir l'itinéraire
+                    </Link>
+                    <button
+                      onClick={() => handleOpenModal(pkg.title, pkg.duration)}
+                      className="btn btn-sm btn-primary"
+                    >
+                      <i className="fas fa-paper-plane"></i> Devis / Réserver
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* CTA BOARD */}
-          <div className="bg-[#1D747A] text-white p-8 sm:p-12 rounded-3xl flex flex-col lg:flex-row items-center justify-between gap-6 shadow-xl">
-            <div className="space-y-2 text-center lg:text-left">
-              <h3 className="font-heading text-2xl sm:text-3xl font-bold">Envie de Créer Votre Circuit au Rajasthan ?</h3>
-              <p className="text-xs sm:text-sm text-gray-100 font-light">
-                Nos conseillers locaux à Jodhpur composent votre itinéraire gratuit en 24h.
-              </p>
-            </div>
-            <Link href="/voyage-sur-mesure" className="btn-secondary text-xs font-bold uppercase px-6 py-3.5 rounded-xl shadow-lg flex-shrink-0">
-              Obtenir Mon Devis Gratuit
-            </Link>
-          </div>
         </div>
       </section>
-    </div>
+
+      {/* CTA */}
+      <section className="cta-banner-section">
+        <img
+          src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-9.jpg"
+          onError={(e) => { e.target.src = '/images/dest-rajasthan.jpg'; }}
+          alt="CTA Background"
+          className="cta-bg-image"
+        />
+        <div className="container cta-content">
+          <h2 className="cta-title">Concevez votre voyage au Rajasthan sur mesure</h2>
+          <Link href="/voyage-sur-mesure" className="btn btn-primary btn-lg">
+            Demander un Devis Gratuit
+          </Link>
+        </div>
+      </section>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="booking-modal-overlay active">
+          <div className="booking-modal">
+            <div className="booking-modal-header">
+              <button className="modal-close-btn" onClick={() => setIsModalOpen(false)} aria-label="Fermer">
+                <i className="fas fa-times"></i>
+              </button>
+              <h3 className="booking-modal-title">
+                <i className="fas fa-paper-plane"></i> Votre Voyage – Demande de Devis
+              </h3>
+              <div className="selected-tour-badge">
+                <i className="fas fa-map-marked-alt"></i> <span>{selectedTourTitle}</span>
+              </div>
+            </div>
+            <div className="booking-modal-body">
+              <p style={{ fontSize: '0.85rem', marginBottom: '1rem', color: '#5C6768' }}>
+                Demande de devis gratuit pour : <strong>{selectedTourTitle}</strong> ({selectedTourDuration})
+              </p>
+              <form onSubmit={(e) => { e.preventDefault(); alert('Merci pour votre demande! Notre équipe vous recontactera très vite.'); setIsModalOpen(false); }}>
+                <div className="form-group">
+                  <label className="form-label">Nom complet *</label>
+                  <input type="text" className="form-control" required placeholder="Votre nom" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Email *</label>
+                  <input type="email" className="form-control" required placeholder="votre.email@domaine.fr" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Téléphone / WhatsApp *</label>
+                  <input type="tel" className="form-control" required placeholder="+33 6 12 34 56 78" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Message ou précisions *</label>
+                  <textarea className="form-control" rows="3" required placeholder="Vos dates, nombre de personnes..."></textarea>
+                </div>
+                <button type="submit" className="modal-submit-btn">
+                  Envoyer ma demande <i className="fas fa-paper-plane"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
   );
 }
