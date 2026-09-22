@@ -102,6 +102,7 @@ export default function CommentairesPage() {
   ];
 
   const [remoteReviews, setRemoteReviews] = useState([]);
+  const [heroData, setHeroData] = useState(null);
 
   useEffect(() => {
     let mounted = true;
@@ -139,6 +140,34 @@ export default function CommentairesPage() {
       }
     };
     fetchReviews();
+    // fetch hero slider content for the commentaires page
+    const fetchHero = async () => {
+      try {
+        const res = await fetch(`${API_BASE || ''}/api/v1/content/hero-slider`).catch(() => null);
+        if (!res || !res.ok) return;
+        const json = await res.json();
+        const payload = json?.data || json;
+        let slide = null;
+        if (Array.isArray(payload)) {
+          slide = payload[0] || null;
+        } else if (payload && typeof payload === 'object') {
+          // Some APIs wrap content in data.data or data.item
+          slide = payload.data || payload.item || payload || null;
+          if (Array.isArray(slide)) slide = slide[0] || null;
+        }
+
+        if (mounted && slide) {
+          const image = slide.image || slide.photo || slide.background || slide.imageUrl || slide.src || '';
+          const title = slide.title || slide.heading || slide.name || 'Vos Avis & Commentaires';
+          const badge = slide.badge || slide.tag || 'RETOURS D\'EXPÉRIENCE';
+          const desc = slide.excerpt || slide.description || slide.subtitle || 'La confiance et la satisfaction de nos voyageurs francophones sont notre plus grande fierté.';
+          setHeroData({ image, title, badge, desc });
+        }
+      } catch (err) {
+        // ignore
+      }
+    };
+    fetchHero();
     return () => { mounted = false; };
   }, []);
 
@@ -168,19 +197,17 @@ export default function CommentairesPage() {
         <div
           className="page-banner-bg"
           style={{
-            backgroundImage: `url(https://www.jodhpurvoyage.com/wp-content/uploads/2026/07/Voyage-Jaisalmer.jpg)`,
+            backgroundImage: `url(${(heroData && heroData.image) || 'https://www.jodhpurvoyage.com/wp-content/uploads/2026/07/Voyage-Jaisalmer.jpg'})`,
           }}
         />
         <div className="page-banner-overlay"></div>
         <div className="container page-banner-content">
           <span className="banner-badge">
             <i className="fas fa-star"></i>
-            RETOURS D'EXPÉRIENCE
+            {(heroData && heroData.badge) || "RETOURS D'EXPÉRIENCE"}
           </span>
-          <h1 className="page-banner-title">Vos Avis & Commentaires</h1>
-          <p className="page-banner-desc">
-            La confiance et la satisfaction de nos voyageurs francophones sont notre plus grande fierté.
-          </p>
+          <h1 className="page-banner-title">{(heroData && heroData.title) || 'Vos Avis & Commentaires'}</h1>
+          <p className="page-banner-desc">{(heroData && heroData.desc) || 'La confiance et la satisfaction de nos voyageurs francophones sont notre plus grande fierté.'}</p>
         </div>
       </section>
 
