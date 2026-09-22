@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import API_BASE from '@/lib/apiBase';
 import Link from 'next/link';
 
 export default function CommentairesPage() {
@@ -106,7 +107,7 @@ export default function CommentairesPage() {
     let mounted = true;
     const fetchReviews = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/v1/commentaires').catch(() => null);
+        const res = await fetch(`${API_BASE || ''}/api/v1/commentaires`).catch(() => null);
         if (!res || !res.ok) return;
         const json = await res.json();
         const payload = json?.data || json;
@@ -148,7 +149,7 @@ export default function CommentairesPage() {
     const revCat = (rev.category || '').toLowerCase();
     const activeCat = (activeCategory || 'all').toLowerCase();
     const matchesCategory = activeCat === 'all' || revCat === activeCat;
-    
+
     const q = (searchQuery || '').trim().toLowerCase();
     const matchesSearch =
       q === '' ||
@@ -156,7 +157,7 @@ export default function CommentairesPage() {
       (rev.excerpt && rev.excerpt.toLowerCase().includes(q)) ||
       (rev.author && rev.author.toLowerCase().includes(q)) ||
       (rev.tag && rev.tag.toLowerCase().includes(q));
-      
+
     return matchesCategory && matchesSearch;
   });
 

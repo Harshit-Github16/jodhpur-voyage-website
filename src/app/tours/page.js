@@ -45,7 +45,7 @@ export default function ToursPage() {
     let mounted = true;
     const fetchTours = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/v1/tours');
+        const res = await fetch(`${API_BASE || ''}/api/v1/tours`);
         const json = await res.json();
         const payload = json?.data || json;
         if (!mounted) return;

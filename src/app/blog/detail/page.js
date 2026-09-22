@@ -17,13 +17,13 @@ function BlogDetailContent() {
       try {
         if (!slugParam) return;
         // Try by id first, then by slug
-        const tryId = await fetch(`http://localhost:5000/api/v1/blogs/${slugParam}`);
+        const tryId = await fetch(`${API_BASE || ''}/api/v1/blogs/${slugParam}`);
         if (tryId.ok) {
           const json = await tryId.json();
           if (mounted) setPost(json?.data || json);
           return;
         }
-        const bySlug = await fetch(`http://localhost:5000/api/v1/blogs?slug=${encodeURIComponent(slugParam)}`);
+        const bySlug = await fetch(`${API_BASE || ''}/api/v1/blogs?slug=${encodeURIComponent(slugParam)}`);
         if (bySlug.ok) {
           const json = await bySlug.json();
           const item = json?.data?.data?.[0] || json?.data?.[0] || (Array.isArray(json) ? json[0] : null);
@@ -36,7 +36,7 @@ function BlogDetailContent() {
 
     const fetchPopular = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/v1/blogs');
+        const res = await fetch(`${API_BASE || ''}/api/v1/blogs`);
         const json = await res.json();
         const list = json?.data?.data || json?.data || json;
         if (mounted && Array.isArray(list)) setRemotePopular(list.slice(0, 6));
@@ -202,183 +202,183 @@ function BlogDetailContent() {
                 )}
               </div>
 
-          {/* Social Share Bar */}
-          <div className="blog-share-bar">
-            <span className="blog-share-title">
-              <i className="fas fa-share-alt"></i> Partager cet article
-            </span>
-            <div className="blog-share-links">
-              <a href="https://www.tripadvisor.in/Attraction_Review-g297668-d26864310-Reviews-Jodhpur_Voyage_Pvt_Ltd-Jodhpur_Jodhpur_District_Rajasthan.html" target="_blank" rel="noopener noreferrer" className="blog-share-btn trip" title="TripAdvisor"><img src="/images/tripad-icon.png" alt="TripAdvisor" className="top-bar-social-img" /></a>
-              <a href="https://www.trustpilot.com/review/jodhpurvoyage.com" target="_blank" rel="noopener noreferrer" className="blog-share-btn trust" title="Trustpilot"><img src="/images/trustpilot-icon.png" alt="Trustpilot" className="top-bar-social-img" /></a>
-              <a href="https://www.facebook.com/jodhpurvoyage/" target="_blank" rel="noopener noreferrer" className="blog-share-btn fb" title="Partager sur Facebook"><i className="fab fa-facebook-f"></i></a>
-              <a href="https://www.instagram.com/jodhpur_voyage/" target="_blank" rel="noopener noreferrer" className="blog-share-btn ig" title="Suivez-nous sur Instagram"><i className="fab fa-instagram"></i></a>
-              <a href="#" className="blog-share-btn tw" title="Partager sur X / Twitter"><i className="fab fa-x-twitter"></i></a>
-              <a href="https://wa.me/919650698669" target="_blank" rel="noopener noreferrer" className="blog-share-btn wa" title="Partager sur WhatsApp"><i className="fab fa-whatsapp"></i></a>
-            </div>
+              {/* Social Share Bar */}
+              <div className="blog-share-bar">
+                <span className="blog-share-title">
+                  <i className="fas fa-share-alt"></i> Partager cet article
+                </span>
+                <div className="blog-share-links">
+                  <a href="https://www.tripadvisor.in/Attraction_Review-g297668-d26864310-Reviews-Jodhpur_Voyage_Pvt_Ltd-Jodhpur_Jodhpur_District_Rajasthan.html" target="_blank" rel="noopener noreferrer" className="blog-share-btn trip" title="TripAdvisor"><img src="/images/tripad-icon.png" alt="TripAdvisor" className="top-bar-social-img" /></a>
+                  <a href="https://www.trustpilot.com/review/jodhpurvoyage.com" target="_blank" rel="noopener noreferrer" className="blog-share-btn trust" title="Trustpilot"><img src="/images/trustpilot-icon.png" alt="Trustpilot" className="top-bar-social-img" /></a>
+                  <a href="https://www.facebook.com/jodhpurvoyage/" target="_blank" rel="noopener noreferrer" className="blog-share-btn fb" title="Partager sur Facebook"><i className="fab fa-facebook-f"></i></a>
+                  <a href="https://www.instagram.com/jodhpur_voyage/" target="_blank" rel="noopener noreferrer" className="blog-share-btn ig" title="Suivez-nous sur Instagram"><i className="fab fa-instagram"></i></a>
+                  <a href="#" className="blog-share-btn tw" title="Partager sur X / Twitter"><i className="fab fa-x-twitter"></i></a>
+                  <a href="https://wa.me/919650698669" target="_blank" rel="noopener noreferrer" className="blog-share-btn wa" title="Partager sur WhatsApp"><i className="fab fa-whatsapp"></i></a>
+                </div>
+              </div>
+
+              {/* Author Bio Box */}
+              <div className="author-box">
+                <img
+                  src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/logo-transprent.png"
+                  alt="Équipe Jodhpur Voyage"
+                  className="author-avatar-img"
+                />
+                <div>
+                  <span className="author-details-badge"><i className="fas fa-certificate"></i> Agence Réceptive Francophone</span>
+                  <div className="author-details-name">Équipe Rédactionnelle Jodhpur Voyage</div>
+                  <div className="author-details-bio">
+                    Experts francophones passionnés par le patrimoine, l'histoire et les séjours authentiques au Rajasthan et à travers toute l'Inde & Népal. Forts de 20 ans d'expérience sur le terrain.
+                  </div>
+                </div>
+              </div>
+
+              {/* Post Navigation Cards */}
+              <div className="blog-post-nav">
+                <Link href="/blog/detail" className="blog-post-nav-card">
+                  <span className="blog-post-nav-dir"><i className="fas fa-arrow-left"></i> Article Précédent</span>
+                  <span className="blog-post-nav-title">Les ghats mystiques de Varanasi le long du Gange</span>
+                </Link>
+                <Link href="/blog/detail" className="blog-post-nav-card" style={{ textAlign: 'right' }}>
+                  <span className="blog-post-nav-dir" style={{ justifyContent: 'flex-end' }}>Article Suivant <i className="fas fa-arrow-right"></i></span>
+                  <span className="blog-post-nav-title">Guide complet pour un trek réussi dans l'Himalaya au Népal</span>
+                </Link>
+              </div>
+            </article>
+
+            {/* Right: Sticky Sidebar */}
+            <aside className="blog-sidebar">
+              {/* Widget 1: Search */}
+              <div className="sidebar-widget">
+                <h4 className="widget-title"><i className="fas fa-search"></i> Rechercher</h4>
+                <form className="sidebar-search-form" onSubmit={(e) => e.preventDefault()}>
+                  <input type="text" placeholder="Rechercher un article, lieu..." className="sidebar-search-input" />
+                  <button type="submit" className="sidebar-search-btn" aria-label="Rechercher"><i className="fas fa-search"></i></button>
+                </form>
+              </div>
+
+              {/* Widget 2: Sticky Trip Callout Card */}
+              <div className="sidebar-trip-card">
+                <span className="sidebar-trip-badge"><i className="fas fa-map-marked-alt"></i> Circuit Sur Mesure</span>
+                <h3 className="sidebar-trip-title">Envie de Visiter Jaisalmer ?</h3>
+                <p className="sidebar-trip-desc">
+                  Concoctez un itinéraire privé au Rajasthan avec votre chauffeur francophone dédié et nuits de charme.
+                </p>
+                <ul className="sidebar-trip-features">
+                  <li><i className="fas fa-check"></i> Chauffeur privé & véhicule climatisé</li>
+                  <li><i className="fas fa-check"></i> Hôtels de patrimoine & camp désert</li>
+                  <li><i className="fas fa-check"></i> Agence locale 100% francophone</li>
+                </ul>
+                <Link href="/voyage-sur-mesure" className="btn btn-primary btn-full">
+                  <i className="far fa-paper-plane"></i> Demander mon devis gratuit
+                </Link>
+              </div>
+
+              {/* Widget 3: Trending / Popular Posts */}
+              <div className="sidebar-widget">
+                <h4 className="widget-title"><i className="fas fa-fire"></i> Articles Populaires</h4>
+                <div className="sidebar-posts-list">
+                  {(remotePopular && remotePopular.length ? remotePopular : []).map((p) => (
+                    <Link
+                      key={p._id || p.id || p.slug}
+                      href={`/blog/detail?slug=${encodeURIComponent(p.slug || p._id || p.id || '')}`}
+                      className="sidebar-post-item"
+                    >
+                      <img
+                        src={p.image || p.cover || '/images/dest-rajasthan.jpg'}
+                        alt={p.title || p.name}
+                        className="sidebar-post-img"
+                        onError={(e) => { e.target.src = '/images/dest-rajasthan.jpg'; }}
+                      />
+                      <div className="sidebar-post-content">
+                        <h5 className="sidebar-post-title">{p.title || p.name}</h5>
+                        <span className="sidebar-post-meta"><i className="far fa-clock"></i> {p.readTime || '5 min'}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Widget 4: Tags Cloud */}
+              <div className="sidebar-widget">
+                <h4 className="widget-title"><i className="fas fa-tags"></i> Mots-Clés</h4>
+                <div className="sidebar-tags-cloud">
+                  <Link href="/blog" className="sidebar-tag-pill">#Rajasthan</Link>
+                  <Link href="/blog" className="sidebar-tag-pill">#Jaisalmer</Link>
+                  <Link href="/blog" className="sidebar-tag-pill">#DésertThar</Link>
+                  <Link href="/blog" className="sidebar-tag-pill">#Havelis</Link>
+                  <Link href="/blog" className="sidebar-tag-pill">#SafariDromadaire</Link>
+                  <Link href="/blog" className="sidebar-tag-pill">#UNESCO</Link>
+                  <Link href="/blog" className="sidebar-tag-pill">#Varanasi</Link>
+                  <Link href="/blog" className="sidebar-tag-pill">#Népal</Link>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div >
+      </section >
+
+      {/* RELATED BLOG POSTS */}
+      < section className="section-padding bg-cream" >
+        <div className="container">
+          <div className="section-header">
+            <span className="section-subtitle">À Lire Aussi</span>
+            <h2 className="section-title">Articles Similaires</h2>
           </div>
 
-          {/* Author Bio Box */}
-          <div className="author-box">
-            <img
-              src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/logo-transprent.png"
-              alt="Équipe Jodhpur Voyage"
-              className="author-avatar-img"
-            />
-            <div>
-              <span className="author-details-badge"><i className="fas fa-certificate"></i> Agence Réceptive Francophone</span>
-              <div className="author-details-name">Équipe Rédactionnelle Jodhpur Voyage</div>
-              <div className="author-details-bio">
-                Experts francophones passionnés par le patrimoine, l'histoire et les séjours authentiques au Rajasthan et à travers toute l'Inde & Népal. Forts de 20 ans d'expérience sur le terrain.
+          <div className="home-blog-grid">
+            <div className="tour-card">
+              <div className="tour-card-image-wrap tour-card-image-sm">
+                <img
+                  src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-8.jpg"
+                  alt="Varanasi Blog"
+                  onError={(e) => { e.target.src = '/images/dest-rajasthan.jpg'; }}
+                />
+              </div>
+              <div className="tour-card-body">
+                <div className="mega-blog-meta">Spiritualité • Inde du Nord</div>
+                <h3 className="tour-card-title tour-card-title-sm">Les ghats mystiques de Varanasi le long du Gange</h3>
+                <Link href="/blog/detail" className="btn btn-sm btn-outline mt-auto">
+                  Lire l'article
+                </Link>
+              </div>
+            </div>
+
+            <div className="tour-card">
+              <div className="tour-card-image-wrap tour-card-image-sm">
+                <img
+                  src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/07/slide8-300x176.jpg"
+                  alt="Nepal Blog"
+                  onError={(e) => { e.target.src = '/images/dest-jodhpur.jpg'; }}
+                />
+              </div>
+              <div className="tour-card-body">
+                <div className="mega-blog-meta">Népal • Trekking</div>
+                <h3 className="tour-card-title tour-card-title-sm">Guide complet pour un trek réussi dans l'Himalaya</h3>
+                <Link href="/blog/detail" className="btn btn-sm btn-outline mt-auto">
+                  Lire l'article
+                </Link>
+              </div>
+            </div>
+
+            <div className="tour-card">
+              <div className="tour-card-image-wrap tour-card-image-sm">
+                <img
+                  src="https://www.jodhpurvoyage.com/wp-content/uploads/2024/07/jaipur-travel.jpg"
+                  alt="Jaipur Travel"
+                  onError={(e) => { e.target.src = '/images/dest-jaipur.jpg'; }}
+                />
+              </div>
+              <div className="tour-card-body">
+                <div className="mega-blog-meta">Rajasthan • Histoire</div>
+                <h3 className="tour-card-title tour-card-title-sm">Jaipur : Les secrets de la Cité Rose des Maharajas</h3>
+                <Link href="/blog/detail" className="btn btn-sm btn-outline mt-auto">
+                  Lire l'article
+                </Link>
               </div>
             </div>
           </div>
-
-          {/* Post Navigation Cards */}
-          <div className="blog-post-nav">
-            <Link href="/blog/detail" className="blog-post-nav-card">
-              <span className="blog-post-nav-dir"><i className="fas fa-arrow-left"></i> Article Précédent</span>
-              <span className="blog-post-nav-title">Les ghats mystiques de Varanasi le long du Gange</span>
-            </Link>
-            <Link href="/blog/detail" className="blog-post-nav-card" style={{ textAlign: 'right' }}>
-              <span className="blog-post-nav-dir" style={{ justifyContent: 'flex-end' }}>Article Suivant <i className="fas fa-arrow-right"></i></span>
-              <span className="blog-post-nav-title">Guide complet pour un trek réussi dans l'Himalaya au Népal</span>
-            </Link>
-          </div>
-        </article>
-
-        {/* Right: Sticky Sidebar */}
-        <aside className="blog-sidebar">
-          {/* Widget 1: Search */}
-          <div className="sidebar-widget">
-            <h4 className="widget-title"><i className="fas fa-search"></i> Rechercher</h4>
-            <form className="sidebar-search-form" onSubmit={(e) => e.preventDefault()}>
-              <input type="text" placeholder="Rechercher un article, lieu..." className="sidebar-search-input" />
-              <button type="submit" className="sidebar-search-btn" aria-label="Rechercher"><i className="fas fa-search"></i></button>
-            </form>
-          </div>
-
-          {/* Widget 2: Sticky Trip Callout Card */}
-          <div className="sidebar-trip-card">
-            <span className="sidebar-trip-badge"><i className="fas fa-map-marked-alt"></i> Circuit Sur Mesure</span>
-            <h3 className="sidebar-trip-title">Envie de Visiter Jaisalmer ?</h3>
-            <p className="sidebar-trip-desc">
-              Concoctez un itinéraire privé au Rajasthan avec votre chauffeur francophone dédié et nuits de charme.
-            </p>
-            <ul className="sidebar-trip-features">
-              <li><i className="fas fa-check"></i> Chauffeur privé & véhicule climatisé</li>
-              <li><i className="fas fa-check"></i> Hôtels de patrimoine & camp désert</li>
-              <li><i className="fas fa-check"></i> Agence locale 100% francophone</li>
-            </ul>
-            <Link href="/voyage-sur-mesure" className="btn btn-primary btn-full">
-              <i className="far fa-paper-plane"></i> Demander mon devis gratuit
-            </Link>
-          </div>
-
-          {/* Widget 3: Trending / Popular Posts */}
-          <div className="sidebar-widget">
-            <h4 className="widget-title"><i className="fas fa-fire"></i> Articles Populaires</h4>
-            <div className="sidebar-posts-list">
-              {(remotePopular && remotePopular.length ? remotePopular : []).map((p) => (
-                <Link
-                  key={p._id || p.id || p.slug}
-                  href={`/blog/detail?slug=${encodeURIComponent(p.slug || p._id || p.id || '')}`}
-                  className="sidebar-post-item"
-                >
-                  <img
-                    src={p.image || p.cover || '/images/dest-rajasthan.jpg'}
-                    alt={p.title || p.name}
-                    className="sidebar-post-img"
-                    onError={(e) => { e.target.src = '/images/dest-rajasthan.jpg'; }}
-                  />
-                  <div className="sidebar-post-content">
-                    <h5 className="sidebar-post-title">{p.title || p.name}</h5>
-                    <span className="sidebar-post-meta"><i className="far fa-clock"></i> {p.readTime || '5 min'}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Widget 4: Tags Cloud */}
-          <div className="sidebar-widget">
-            <h4 className="widget-title"><i className="fas fa-tags"></i> Mots-Clés</h4>
-            <div className="sidebar-tags-cloud">
-              <Link href="/blog" className="sidebar-tag-pill">#Rajasthan</Link>
-              <Link href="/blog" className="sidebar-tag-pill">#Jaisalmer</Link>
-              <Link href="/blog" className="sidebar-tag-pill">#DésertThar</Link>
-              <Link href="/blog" className="sidebar-tag-pill">#Havelis</Link>
-              <Link href="/blog" className="sidebar-tag-pill">#SafariDromadaire</Link>
-              <Link href="/blog" className="sidebar-tag-pill">#UNESCO</Link>
-              <Link href="/blog" className="sidebar-tag-pill">#Varanasi</Link>
-              <Link href="/blog" className="sidebar-tag-pill">#Népal</Link>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </div >
-      </section >
-
-    {/* RELATED BLOG POSTS */ }
-    < section className = "section-padding bg-cream" >
-      <div className="container">
-        <div className="section-header">
-          <span className="section-subtitle">À Lire Aussi</span>
-          <h2 className="section-title">Articles Similaires</h2>
         </div>
-
-        <div className="home-blog-grid">
-          <div className="tour-card">
-            <div className="tour-card-image-wrap tour-card-image-sm">
-              <img
-                src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-8.jpg"
-                alt="Varanasi Blog"
-                onError={(e) => { e.target.src = '/images/dest-rajasthan.jpg'; }}
-              />
-            </div>
-            <div className="tour-card-body">
-              <div className="mega-blog-meta">Spiritualité • Inde du Nord</div>
-              <h3 className="tour-card-title tour-card-title-sm">Les ghats mystiques de Varanasi le long du Gange</h3>
-              <Link href="/blog/detail" className="btn btn-sm btn-outline mt-auto">
-                Lire l'article
-              </Link>
-            </div>
-          </div>
-
-          <div className="tour-card">
-            <div className="tour-card-image-wrap tour-card-image-sm">
-              <img
-                src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/07/slide8-300x176.jpg"
-                alt="Nepal Blog"
-                onError={(e) => { e.target.src = '/images/dest-jodhpur.jpg'; }}
-              />
-            </div>
-            <div className="tour-card-body">
-              <div className="mega-blog-meta">Népal • Trekking</div>
-              <h3 className="tour-card-title tour-card-title-sm">Guide complet pour un trek réussi dans l'Himalaya</h3>
-              <Link href="/blog/detail" className="btn btn-sm btn-outline mt-auto">
-                Lire l'article
-              </Link>
-            </div>
-          </div>
-
-          <div className="tour-card">
-            <div className="tour-card-image-wrap tour-card-image-sm">
-              <img
-                src="https://www.jodhpurvoyage.com/wp-content/uploads/2024/07/jaipur-travel.jpg"
-                alt="Jaipur Travel"
-                onError={(e) => { e.target.src = '/images/dest-jaipur.jpg'; }}
-              />
-            </div>
-            <div className="tour-card-body">
-              <div className="mega-blog-meta">Rajasthan • Histoire</div>
-              <h3 className="tour-card-title tour-card-title-sm">Jaipur : Les secrets de la Cité Rose des Maharajas</h3>
-              <Link href="/blog/detail" className="btn btn-sm btn-outline mt-auto">
-                Lire l'article
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
       </section>
     </>
   );

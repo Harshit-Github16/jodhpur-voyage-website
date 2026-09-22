@@ -16,13 +16,13 @@ function TourRajasthanDetailContent() {
     const fetchTour = async () => {
       try {
         if (!slugParam) return;
-        const byId = await fetch(`http://localhost:5000/api/v1/tours/${slugParam}`);
+        const byId = await fetch(`${API_BASE || ''}/api/v1/tours/${slugParam}`);
         if (byId.ok) {
           const json = await byId.json();
           if (mounted) setTour(json?.data || json);
           return;
         }
-        const bySlug = await fetch(`http://localhost:5000/api/v1/tours?slug=${encodeURIComponent(slugParam)}`);
+        const bySlug = await fetch(`${API_BASE || ''}/api/v1/tours?slug=${encodeURIComponent(slugParam)}`);
         if (bySlug.ok) {
           const json = await bySlug.json();
           const item = json?.data?.data?.[0] || json?.data?.[0] || (Array.isArray(json) ? json[0] : null);

@@ -20,7 +20,7 @@ export default function QuiNousSommesPage() {
     let mounted = true;
     const fetchContent = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/v1/content/who-we-are');
+        const res = await fetch(`${API_BASE || ''}/api/v1/content/who-we-are`);
         const json = await res.json();
         const payload = json?.data || json;
         if (!mounted || !payload) return;

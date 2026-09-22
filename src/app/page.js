@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import API_BASE from '@/lib/apiBase';
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -60,7 +61,7 @@ export default function HomePage() {
     let mounted = true;
     const fetchSlider = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/v1/content/hero-slider');
+        const res = await fetch(`${API_BASE || ''}/api/v1/content/hero-slider`);
         if (!mounted) return;
         const json = await res.json();
         const payload = json?.data || json?.data?.data || json;
@@ -112,7 +113,7 @@ export default function HomePage() {
     const fetchData = async () => {
       try {
         // Popular destinations
-        const respDest = await fetch('http://localhost:5000/api/v1/destination-categories');
+        const respDest = await fetch(`${API_BASE || ''}/api/v1/destination-categories`);
         const jsonDest = await respDest.json();
         const payloadDest = jsonDest?.data || jsonDest;
         const listDest = Array.isArray(payloadDest.data) ? payloadDest.data : (Array.isArray(payloadDest) ? payloadDest : []);
@@ -121,7 +122,7 @@ export default function HomePage() {
         }
 
         // Popular tours
-        const respTours = await fetch('http://localhost:5000/api/v1/tours');
+        const respTours = await fetch(`${API_BASE || ''}/api/v1/tours`);
         const jsonTours = await respTours.json();
         const payloadTours = jsonTours?.data || jsonTours;
         const listTours = Array.isArray(payloadTours.data) ? payloadTours.data : (Array.isArray(payloadTours) ? payloadTours : []);
@@ -140,7 +141,7 @@ export default function HomePage() {
         }
 
         // Testimonials / commentaires
-        const respRev = await fetch('http://localhost:5000/api/v1/commentaires');
+        const respRev = await fetch(`${API_BASE || ''}/api/v1/commentaires`);
         const jsonRev = await respRev.json();
         const payloadRev = jsonRev?.data || jsonRev;
         const listRev = Array.isArray(payloadRev.data) ? payloadRev.data : (Array.isArray(payloadRev) ? payloadRev : []);

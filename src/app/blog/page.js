@@ -69,7 +69,7 @@ export default function BlogPage() {
     let mounted = true;
     const fetchBlogs = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/v1/blogs');
+        const res = await fetch(`${API_BASE || ''}/api/v1/blogs`);
         const json = await res.json();
         const payload = json?.data || json;
         const list = Array.isArray(payload.data) ? payload.data : (Array.isArray(payload) ? payload : []);

@@ -10,7 +10,7 @@ export default function NotreEquipePage() {
     let mounted = true;
     const fetchTeam = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/v1/team');
+        const res = await fetch(`${API_BASE || ''}/api/v1/team`);
         const json = await res.json();
         const payload = json?.data || json;
         if (!mounted || !payload) return;

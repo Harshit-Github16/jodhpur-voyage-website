@@ -69,7 +69,7 @@ export default function DestinationsPage() {
     let mounted = true;
     const fetchDest = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/v1/destination-categories');
+        const res = await fetch(`${API_BASE || ''}/api/v1/destination-categories`);
         const json = await res.json();
         const payload = json?.data || json;
         const list = Array.isArray(payload.data) ? payload.data : (Array.isArray(payload) ? payload : []);

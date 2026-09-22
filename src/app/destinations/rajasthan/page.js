@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import API_BASE from '@/lib/apiBase';
 import Link from 'next/link';
 
 export default function DestinationRajasthanPage() {
@@ -13,7 +14,7 @@ export default function DestinationRajasthanPage() {
     let mounted = true;
     const fetchList = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/v1/tours?category=rajasthan');
+        const res = await fetch(`${API_BASE || ''}/api/v1/tours?category=rajasthan`);
         const json = await res.json();
         const list = json?.data?.data || json?.data || json;
         if (mounted && Array.isArray(list) && list.length) {
