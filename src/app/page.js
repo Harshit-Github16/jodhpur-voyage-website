@@ -145,7 +145,12 @@ export default function HomePage() {
         const payloadRev = jsonRev?.data || jsonRev;
         const listRev = Array.isArray(payloadRev.data) ? payloadRev.data : (Array.isArray(payloadRev) ? payloadRev : []);
         if (mounted && listRev.length) {
-          setRemoteTestimonials(listRev.slice(0, 6).map((r) => ({ quote: r.comment || r.excerpt || '', author: r.author || r.name || 'Voyageur', trip: r.trip || r.tour || '', stars: r.stars || r.rating || 5 })));
+          setRemoteTestimonials(listRev.slice(0, 6).map((r) => ({
+            quote: r.comment || r.excerpt || '',
+            author: (typeof r.author === 'string') ? r.author : (r.author && r.author.name) || r.name || 'Voyageur',
+            trip: r.trip || r.tour || '',
+            stars: r.stars || r.rating || 5,
+          })));
         }
       } catch (err) {
         console.warn('Home fetches failed', err.message || err);

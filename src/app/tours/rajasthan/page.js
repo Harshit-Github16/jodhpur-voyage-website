@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, usePathname } from 'next/navigation';
 
-export default function TourRajasthanDetailPage() {
+function TourRajasthanDetailContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -216,5 +216,13 @@ export default function TourRajasthanDetailPage() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function TourRajasthanDetailPage() {
+  return (
+    <Suspense fallback={<div className="container section-padding text-center">Chargement du circuit...</div>}>
+      <TourRajasthanDetailContent />
+    </Suspense>
   );
 }

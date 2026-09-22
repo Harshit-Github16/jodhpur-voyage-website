@@ -319,42 +319,86 @@
   </section>
 
   <!-- RATING SUMMARY SCORECARD & TRUST BADGES -->
-  <section class="section-padding bg-white pb-0">
+  <section class="reviews-overview-section">
     <div class="container">
       <div class="scorecard-wrapper">
         <!-- Rating Score -->
         <div class="score-col">
-          <span class="score-badge-label">Score de Satisfaction</span>
-          <div class="score-number">4.9<span>/5</span></div>
+          <span class="score-badge-label"><i class="fas fa-award"></i> Score Global</span>
+          <div class="score-number-wrap">
+            <span class="score-number">4.9</span>
+            <span class="score-max">/5</span>
+          </div>
           <div class="score-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <p class="score-text">Basé sur <strong>+500 témoignages</strong> de voyageurs francophones</p>
+          <div class="score-count-badge">
+            <i class="fas fa-shield-check"></i> +500 Avis Clients Vérifiés
+          </div>
+          <p class="score-subtext">Note moyenne basée sur les retours certifiés de nos voyageurs en Inde & Népal.</p>
         </div>
 
         <!-- Satisfaction Metrics -->
         <div class="metrics-col">
           <div class="metric-card">
-            <div class="metric-value">99%</div>
-            <div class="metric-label">Organisation & Rigueur</div>
+            <div class="metric-top">
+              <span class="metric-icon-wrap metric-tripadvisor"><i class="fab fa-tripadvisor"></i></span>
+              <div class="metric-value">5.0 / 5</div>
+            </div>
+            <div class="metric-label">TripAdvisor Excellence</div>
+            <div class="metric-sublabel">100% Avis positifs</div>
           </div>
           <div class="metric-card">
-            <div class="metric-value">98%</div>
+            <div class="metric-top">
+              <span class="metric-icon-wrap metric-trustpilot"><i class="fas fa-star"></i></span>
+              <div class="metric-value">4.9 / 5</div>
+            </div>
+            <div class="metric-label">Trustpilot Vérifié</div>
+            <div class="metric-sublabel">Note d'excellence</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-icon-wrap metric-driver"><i class="fas fa-car-side"></i></span>
+              <div class="metric-value">98%</div>
+            </div>
             <div class="metric-label">Chauffeurs & Ponctualité</div>
+            <div class="metric-sublabel">Service attentionné</div>
           </div>
           <div class="metric-card">
-            <div class="metric-value">97%</div>
+            <div class="metric-top">
+              <span class="metric-icon-wrap metric-hotel"><i class="fas fa-hotel"></i></span>
+              <div class="metric-value">97%</div>
+            </div>
             <div class="metric-label">Hôtels & Charme Haveli</div>
+            <div class="metric-sublabel">Hébergements de charme</div>
           </div>
         </div>
 
         <!-- External Verification Badges -->
         <div class="badges-col">
-          <span class="badge-verify-text">Avis vérifiés indépendants</span>
-          <a href="https://www.tripadvisor.in/Attraction_Review-g297668-d26864310-Reviews-Jodhpur_Voyage_Pvt_Ltd-Jodhpur_Jodhpur_District_Rajasthan.html" target="_blank" rel="noopener" class="badge-img-link">
-            <img src="images/tripad-icon.png" alt="TripAdvisor Jodhpur Voyage" class="badge-img-tripad">
-          </a>
-          <a href="https://www.trustpilot.com/review/jodhpurvoyage.com" target="_blank" rel="noopener" class="badge-img-link">
-            <img src="images/trustpilot-icon.png" alt="Trustpilot Jodhpur Voyage" class="badge-img-trust">
-          </a>
+          <span class="badge-verify-text"><i class="fas fa-certificate text-teal"></i> Avis Vérifiés Indépendants</span>
+          <p class="badges-desc">Consultez nos profils officiels et avis certifiés :</p>
+          <div class="badges-list">
+            <a href="https://www.tripadvisor.in/Attraction_Review-g297668-d26864310-Reviews-Jodhpur_Voyage_Pvt_Ltd-Jodhpur_Jodhpur_District_Rajasthan.html" target="_blank" rel="noopener" class="badge-platform-card" title="Voir nos avis sur TripAdvisor">
+              <img src="images/tripadvisor-badge.jpg" alt="TripAdvisor Jodhpur Voyage" class="badge-platform-img">
+              <div class="badge-platform-info">
+                <span class="badge-platform-name">TripAdvisor</span>
+                <span class="badge-platform-link">Lire les avis <i class="fas fa-external-link-alt"></i></span>
+              </div>
+            </a>
+            <a href="https://www.trustpilot.com/review/jodhpurvoyage.com" target="_blank" rel="noopener" class="badge-platform-card" title="Voir nos avis sur Trustpilot">
+              <img src="images/trustpilot-badge.jpg" alt="Trustpilot Jodhpur Voyage" class="badge-platform-img">
+              <div class="badge-platform-info">
+                <span class="badge-platform-name">Trustpilot</span>
+                <span class="badge-platform-link">Lire les avis <i class="fas fa-external-link-alt"></i></span>
+              </div>
+            </a>
+            <a href="https://www.google.com/search?q=Jodhpur+Voyage" target="_blank" rel="noopener" class="badge-platform-card" title="Voir nos avis sur Google">
+              <img src="images/google-review-badge.jpg" alt="Google Reviews Jodhpur Voyage" class="badge-platform-img">
+              <div class="badge-platform-info">
+                <span class="badge-platform-name">Google Reviews</span>
+                <span class="badge-platform-link">Note 4.9 ★ <i class="fas fa-external-link-alt"></i></span>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>

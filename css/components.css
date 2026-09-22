@@ -350,9 +350,12 @@
 .page-banner-section {
   position: relative;
   width: 100%;
-  height: clamp(280px, 36vh, 520px);
+  min-height: 260px;
+  height: clamp(260px, 32vh, 440px);
   overflow: hidden;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .page-banner-section .page-banner-bg {
@@ -361,6 +364,9 @@
   left: 0;
   width: 100%;
   height: 100%;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
   object-fit: cover;
   object-position: center center;
   display: block;
@@ -369,122 +375,60 @@
 .page-banner-section .page-banner-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(0,0,0,0.36), rgba(0,0,0,0.12));
+  background: linear-gradient(180deg, rgba(18, 31, 32, 0.6) 0%, rgba(18, 31, 32, 0.4) 50%, rgba(18, 31, 32, 0.72) 100%);
   z-index: 1;
 }
 
 .page-banner-section .page-banner-content {
   position: relative;
   z-index: 2;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 1.25rem 1rem;
+  padding: 2rem 1.25rem;
 }
 
-.page-banner-section .page-banner-title {
-  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
-  line-height: 1.05;
-  margin: 0 0 0.25rem 0;
-  color: #fff;
-}
-
-/* Small pill badge shown above the title */
 .page-banner-section .banner-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  background: rgba(0,0,0,0.55);
+  gap: 0.5rem;
+  background: rgba(29, 116, 122, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #fff;
-  padding: 0.45rem 1.05rem;
+  padding: 0.4rem 1.1rem;
   border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  margin-bottom: 1rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.page-banner-section .banner-badge i {
+  color: #E2AD52;
+}
+
+.page-banner-section .page-banner-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 0.5rem 0;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .page-banner-section .page-banner-desc {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.92);
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.92);
   margin: 0 auto;
-  max-width: 880px;
-}
-
-/* Make the hero image slightly dimmer so white text reads better when centered */
-.page-banner-section .page-banner-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.08);
-  pointer-events: none;
-}
-
-/* Tweak: make hero slightly shorter to match reference */
-.page-banner-section {
-  height: clamp(220px, 28vh, 420px);
-}
-
-/* Reviews overview centered card */
-.reviews-overview-section .reviews-overview-grid {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 1.6rem;
-  padding: 2rem 0;
-}
-
-.reviews-overview-section .reviews-overview-grid > .metrics-col {
-  flex: 1 1 640px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.reviews-overview-section .reviews-overview-grid > .badges-col {
-  flex: 1 1 380px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.reviews-overview-card {
-  width: 100%;
-  background: var(--color-cream);
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-  padding: 1.6rem;
-  display: flex;
-  gap: 1.2rem;
-  align-items: center;
-}
-
-.metrics-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-}
-
-.metric-card {
-  background: #fff;
-  padding: 1.1rem 1.2rem;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-}
-
-.metric-value {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--color-dark);
-}
-
-.metric-label {
-  font-size: 0.85rem;
-  color: #6b7777;
+  max-width: 800px;
+  line-height: 1.55;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .mega-grid-2col {
@@ -4280,118 +4224,260 @@ a.review-card {
   font-size: clamp(0.95rem, 1.8vw, 1.1rem);
 }
 
+.reviews-overview-section {
+  padding: 2.5rem 0 1.5rem 0;
+  background: #F8FBFB;
+}
+
 .scorecard-wrapper {
-  background: linear-gradient(135deg, #F8FBFB 0%, #EBF4F4 100%);
-  border-radius: var(--radius-lg);
-  padding: 3rem 2.5rem;
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-md);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.2rem 2.4rem;
+  border: 1px solid rgba(29, 116, 122, 0.12);
+  box-shadow: 0 12px 36px rgba(26, 43, 44, 0.05);
   display: grid;
-  grid-template-columns: 300px 1fr 280px;
-  gap: 2.5rem;
+  grid-template-columns: 280px 1fr 290px;
+  gap: 2.2rem;
   align-items: center;
 }
 
+/* 1. Score Column */
 .score-col {
   text-align: center;
-  border-right: 1px solid var(--color-border);
+  border-right: 1px solid #E6EEEE;
   padding-right: 2rem;
-}
-
-.score-badge-label {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--color-primary);
-  font-weight: 700;
-}
-
-.score-number {
-  font-family: var(--font-heading);
-  font-size: 4rem;
-  font-weight: 800;
-  color: var(--color-dark);
-  line-height: 1;
-  margin: 0.4rem 0;
-}
-
-.score-number span {
-  font-size: 2rem;
-  color: #888;
-}
-
-.score-stars {
-  color: var(--color-gold);
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-}
-
-.score-text {
-  font-size: 0.88rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-  margin: 0;
-}
-
-.metrics-col {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
-  text-align: center;
-}
-
-.metric-card {
-  background: white;
-  padding: 1.2rem 0.8rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-light);
-  box-shadow: var(--shadow-sm);
-}
-
-.metric-value {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  font-family: var(--font-heading);
-}
-
-.metric-label {
-  font-size: 0.82rem;
-  color: var(--color-text-muted);
-  font-weight: 600;
-  margin-top: 0.3rem;
-}
-
-.badges-col {
-  text-align: center;
-  border-left: 1px solid var(--color-border);
-  padding-left: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   align-items: center;
   justify-content: center;
 }
 
-.badge-verify-text {
-  font-size: 0.85rem;
+.score-badge-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-primary);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.2rem;
+}
+
+.score-number-wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem;
+  line-height: 1;
+  margin: 0.3rem 0;
+}
+
+.score-number {
+  font-family: var(--font-heading);
+  font-size: 3.8rem;
+  font-weight: 800;
+  color: var(--color-dark);
+  line-height: 1;
+}
+
+.score-max {
+  font-size: 1.7rem;
+  color: #889A9B;
   font-weight: 600;
-  color: var(--color-text-muted);
 }
 
-.badge-img-link {
-  display: inline-block;
-  transition: var(--transition-fast);
+.score-stars {
+  color: #C58B39;
+  font-size: 1.2rem;
+  letter-spacing: 3px;
+  margin-bottom: 0.6rem;
 }
 
-.badge-img-tripad {
-  height: 48px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+.score-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #EBF7F7;
+  color: #1D747A;
+  border: 1px solid #D4EBEB;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
-.badge-img-trust {
-  height: 44px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+.score-subtext {
+  font-size: 0.78rem;
+  color: #6B7D7E;
+  margin: 0;
+  line-height: 1.45;
+  max-width: 240px;
+}
+
+/* 2. Metrics Column (2x2 Balanced Grid) */
+.metrics-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.metric-card {
+  background: #F8FBFB;
+  border: 1px solid #E5EFEF;
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.metric-card:hover {
+  background: #ffffff;
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(29, 116, 122, 0.08);
+}
+
+.metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.metric-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+.metric-tripadvisor {
+  background: #E8F7EE;
+  color: #00AA6C;
+}
+
+.metric-trustpilot {
+  background: #E6F5F6;
+  color: #1D747A;
+}
+
+.metric-driver {
+  background: #FDF4E7;
+  color: #C58B39;
+}
+
+.metric-hotel {
+  background: #EBF4F4;
+  color: #155A5F;
+}
+
+.metric-value {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--color-dark);
+  font-family: var(--font-heading);
+  line-height: 1;
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  line-height: 1.3;
+}
+
+.metric-sublabel {
+  font-size: 0.75rem;
+  color: #728485;
+  margin-top: 0.15rem;
+}
+
+/* 3. Badges Column */
+.badges-col {
+  border-left: 1px solid #E6EEEE;
+  padding-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.badge-verify-text {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.badges-desc {
+  font-size: 0.76rem;
+  color: #728485;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.35;
+}
+
+.badges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.badge-platform-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #F8FBFB;
+  border: 1px solid #E5EFEF;
+  border-radius: 10px;
+  padding: 0.5rem 0.8rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.badge-platform-card:hover {
+  background: #ffffff;
+  border-color: var(--color-primary);
+  transform: translateX(4px);
+  box-shadow: 0 4px 14px rgba(29, 116, 122, 0.08);
+}
+
+.badge-platform-img {
+  height: 30px;
+  max-width: 85px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.badge-platform-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.badge-platform-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  line-height: 1.2;
+}
+
+.badge-platform-link {
+  font-size: 0.7rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .reviews-filter-section {

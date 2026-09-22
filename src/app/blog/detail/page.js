@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, usePathname } from 'next/navigation';
 
-export default function BlogDetailPage() {
+function BlogDetailContent() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const slugParam = searchParams?.get('slug') || searchParams?.get('id') || pathname?.split?.('/').pop();
@@ -201,7 +201,6 @@ export default function BlogDetailPage() {
                   </>
                 )}
               </div>
-          </div>
 
           {/* Social Share Bar */}
           <div className="blog-share-bar">
@@ -380,8 +379,16 @@ export default function BlogDetailPage() {
           </div>
         </div>
       </div>
-      </section >
+      </section>
     </>
+  );
+}
+
+export default function BlogDetailPage() {
+  return (
+    <Suspense fallback={<div className="container section-padding text-center">Chargement de l'article...</div>}>
+      <BlogDetailContent />
+    </Suspense>
   );
 }
 
