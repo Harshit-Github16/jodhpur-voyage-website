@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function DestinationsPage() {
@@ -63,10 +63,41 @@ export default function DestinationsPage() {
     },
   ];
 
+  const [remoteDestinations, setRemoteDestinations] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchDest = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/v1/destination-categories');
+        const json = await res.json();
+        const payload = json?.data || json;
+        const list = Array.isArray(payload.data) ? payload.data : (Array.isArray(payload) ? payload : []);
+        if (mounted && list.length) {
+          setRemoteDestinations(list.map((c) => ({
+            category: c.slug || c.key || c.name || 'region',
+            title: c.name || c.title || '',
+            image: c.image || c.cover || '/images/dest-rajasthan.jpg',
+            fallbackImg: '/images/dest-rajasthan.jpg',
+            excerpt: c.description || c.summary || '',
+            link: `/destinations/${c.slug || c._id || ''}`,
+            buttonText: `Découvrir ${c.name || ''}`,
+          })));
+        }
+      } catch (err) {
+        console.warn('Failed to fetch destination categories', err.message || err);
+      }
+    };
+    fetchDest();
+    return () => { mounted = false; };
+  }, []);
+
+  const sourceDestinations = remoteDestinations && remoteDestinations.length ? remoteDestinations : destinationsList;
+
   const filteredDestinations =
     activeFilter === 'all'
-      ? destinationsList
-      : destinationsList.filter((d) => d.category === activeFilter);
+      ? sourceDestinations
+      : sourceDestinations.filter((d) => d.category === activeFilter);
 
   return (
     <main>

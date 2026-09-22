@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function BlogPage() {
@@ -63,9 +63,40 @@ export default function BlogPage() {
     },
   ];
 
-  const filteredArticles = articles.filter((art) => {
+  const [remoteArticles, setRemoteArticles] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchBlogs = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/v1/blogs');
+        const json = await res.json();
+        const payload = json?.data || json;
+        const list = Array.isArray(payload.data) ? payload.data : (Array.isArray(payload) ? payload : []);
+        if (mounted && list.length) {
+          setRemoteArticles(list.map((p) => ({
+            id: p._id || p.id,
+            category: p.category || (p.tags && p.tags[0]) || 'blog',
+            badge: (p.tags && p.tags[0]) || p.category || 'Article',
+            title: p.title || p.name || '',
+            excerpt: p.excerpt || p.summary || p.content?.slice?.(0, 150) || '',
+            img: p.image || p.cover || '/images/dest-jaisalmer.jpg',
+            fallbackImg: '/images/dest-jaisalmer.jpg',
+          })));
+        }
+      } catch (err) {
+        console.warn('Failed to fetch blogs', err.message || err);
+      }
+    };
+    fetchBlogs();
+    return () => { mounted = false; };
+  }, []);
+
+  const sourceArticles = remoteArticles && remoteArticles.length ? remoteArticles : articles;
+
+  const filteredArticles = sourceArticles.filter((art) => {
     if (filter === 'all') return true;
-    return art.category.includes(filter);
+    return (art.category || '').toString().toLowerCase().includes(filter);
   });
 
   return (

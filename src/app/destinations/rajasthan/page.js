@@ -1,12 +1,40 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function DestinationRajasthanPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTourTitle, setSelectedTourTitle] = useState('');
   const [selectedTourDuration, setSelectedTourDuration] = useState('');
+  const [remotePackages, setRemotePackages] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchList = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/v1/tours?category=rajasthan');
+        const json = await res.json();
+        const list = json?.data?.data || json?.data || json;
+        if (mounted && Array.isArray(list) && list.length) {
+          setRemotePackages(list.map((t) => ({
+            title: t.title || t.name,
+            badge: t.tag || 'Populaire',
+            duration: t.duration || '',
+            location: (t.cityName || t.location) || 'Rajasthan',
+            image: t.image || '/images/dest-rajasthan.jpg',
+            fallbackImg: '/images/dest-rajasthan.jpg',
+            excerpt: t.overview || t.summary || '',
+            link: `/tours/rajasthan?slug=${encodeURIComponent(t.slug || t._id || '')}`,
+          })));
+        }
+      } catch (err) {
+        console.warn('Failed to fetch Rajasthan packages', err.message || err);
+      }
+    };
+    fetchList();
+    return () => { mounted = false; };
+  }, []);
 
   const rajasthanPackages = [
     {
@@ -108,7 +136,7 @@ export default function DestinationRajasthanPage() {
           </div>
 
           <div className="tours-grid">
-            {rajasthanPackages.map((pkg, idx) => (
+            {(remotePackages && remotePackages.length ? remotePackages : rajasthanPackages).map((pkg, idx) => (
               <div className="tour-card" key={idx}>
                 <Link href={pkg.link} className="tour-card-image-wrap" title="Voir l'itinéraire du voyage">
                   <img

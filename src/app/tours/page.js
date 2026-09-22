@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function ToursPage() {
@@ -8,7 +8,7 @@ export default function ToursPage() {
   const [selectedTourTitle, setSelectedTourTitle] = useState('');
   const [selectedTourDuration, setSelectedTourDuration] = useState('');
 
-  const toursList = [
+  const [toursList, setToursList] = useState([
     {
       title: 'Séjour au Rajasthan et Bénarès – Le Rajasthan et la rivière Gange',
       badge: 'Populaire',
@@ -39,37 +39,49 @@ export default function ToursPage() {
       excerpt: 'Immergez-vous dans la vraie vie rurale indienne, avec nuit chez l\'habitant et palais secrets.',
       link: '/tours/rajasthan',
     },
-    {
-      title: 'Grand tour du Gujarat',
-      badge: 'Circuit Vedette',
-      duration: '13 Jours / 12 Nuits',
-      location: 'Gujarat',
-      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2024/11/gujarat-voyage.jpg',
-      fallbackImg: '/images/dest-gujarat.jpg',
-      excerpt: 'Patrimoine mondial de l\'UNESCO, désert de sel blanc et lions asiatiques de Gir.',
-      link: '/tours/rajasthan',
-    },
-    {
-      title: 'Circuit la vallée de Spiti et du Kinnaur',
-      badge: 'Himalaya Trans-himalayen',
-      duration: '14 Jours / 13 Nuits',
-      location: 'Vallée de Spiti & Kinnaur',
-      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2023/06/Le-Monastere-de-Key-en-Inde.jpg',
-      fallbackImg: '/images/dest-himachal.jpg',
-      excerpt: 'Monastères bouddhistes du Xe siècle accrochés aux falaises de l\'Himalaya.',
-      link: '/tours/rajasthan',
-    },
-    {
-      title: 'Circuit moto en Inde / Himalaya',
-      badge: 'Moto & Liberté',
-      duration: '10 Jours / 9 Nuits',
-      location: 'Himalaya / Ladakh',
-      image: 'https://www.jodhpurvoyage.com/wp-content/uploads/2022/04/21.jpg',
-      fallbackImg: '/images/dest-ladakh.jpg',
-      excerpt: 'Sensations fortes au guidon d\'une Royal Enfield légendaire.',
-      link: '/tours/rajasthan',
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchTours = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/v1/tours');
+        const json = await res.json();
+        const payload = json?.data || json;
+        if (!mounted) return;
+        if (payload && Array.isArray(payload.data)) {
+          // API follows pagination: { data: [items], count, total }
+          const list = payload.data.map((t) => ({
+            title: t.title || t.name || '',
+            badge: t.badge || '',
+            duration: t.duration || '',
+            location: t.cityName || t.location || '',
+            image: t.image || '',
+            fallbackImg: '/images/image-6.jpg',
+            excerpt: t.overview || '',
+            link: `/tours/${t.slug || t.id || ''}`,
+          }));
+          if (list.length) setToursList(list);
+        } else if (payload && Array.isArray(payload)) {
+          const list = payload.map((t) => ({
+            title: t.title || t.name || '',
+            badge: t.badge || '',
+            duration: t.duration || '',
+            location: t.cityName || t.location || '',
+            image: t.image || '',
+            fallbackImg: '/images/image-6.jpg',
+            excerpt: t.overview || '',
+            link: `/tours/${t.slug || t.id || ''}`,
+          }));
+          if (list.length) setToursList(list);
+        }
+      } catch (err) {
+        console.warn('Fetch tours failed', err.message || err);
+      }
+    };
+    fetchTours();
+    return () => { mounted = false; };
+  }, []);
 
   const handleOpenModal = (title, duration) => {
     setSelectedTourTitle(title);

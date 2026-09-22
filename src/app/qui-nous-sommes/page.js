@@ -1,15 +1,54 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function QuiNousSommesPage() {
+  const [content, setContent] = useState({
+    heroImage: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-12.jpg',
+    heroTitle: 'Qui Sommes Nous ?',
+    heroDesc: "Agence de voyage locale francophone en Inde et au Népal. Découvrez l'équipe passionnée et l'histoire qui anime Jodhpur Voyage depuis plus de 20 ans.",
+    aboutHtml: null,
+    founderImage: 'https://www.jodhpurvoyage.com/wp-content/uploads/2016/06/Jodhpur_Voyage_Inde-276x300.jpg',
+    founderName: 'Mr Singh',
+    founderRole: 'Fondateur & Interlocuteur Principal',
+    founderQuote: '« Passionné par mon pays et sa culture, j\'ai obtenu mon master de tourisme à l\'université de Jodhpur et j\'ai débuté en tant que guide francophone pour les agences de voyages de Delhi. À la suite d\'une rencontre avec une française et les liens d\'amitié aidant, j\'ai pu réaliser mon rêve et créer ma propre agence de voyage. Aujourd\'hui, j\'ai le plaisir de partager ce rêve avec mon équipe et mes clients. »',
+    founderDesc: "Le projet naît d'un désir de s'ouvrir au monde et de partager la culture et les paysages de l'Inde...",
+  });
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchContent = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/v1/content/who-we-are');
+        const json = await res.json();
+        const payload = json?.data || json;
+        if (!mounted || !payload) return;
+        setContent((prev) => ({
+          ...prev,
+          heroImage: payload?.landing?.heroImage || payload?.overview?.image || prev.heroImage,
+          heroTitle: payload?.landing?.title || payload?.overview?.title || prev.heroTitle,
+          heroDesc: payload?.landing?.description || payload?.overview?.summary || prev.heroDesc,
+          aboutHtml: payload?.overview?.body || null,
+          founderImage: payload?.whoAreWe?.founder?.image || prev.founderImage,
+          founderName: payload?.whoAreWe?.founder?.name || prev.founderName,
+          founderRole: payload?.whoAreWe?.founder?.role || prev.founderRole,
+          founderQuote: payload?.whoAreWe?.founder?.quote || prev.founderQuote,
+          founderDesc: payload?.whoAreWe?.founder?.description || prev.founderDesc,
+        }));
+      } catch (err) {
+        console.warn('Failed to load who-we-are content', err.message || err);
+      }
+    };
+    fetchContent();
+    return () => { mounted = false; };
+  }, []);
   return (
     <main>
       {/* HERO BANNER */}
       <section className="about-hero-section">
         <img
-          src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-12.jpg"
+          src={content.heroImage}
           onError={(e) => { e.target.src = '/images/image-12.jpg'; }}
           alt="Qui Sommes Nous Banner"
           className="about-hero-bg"
@@ -18,10 +57,8 @@ export default function QuiNousSommesPage() {
           <span className="hero-badge">
             <i className="fas fa-compass"></i> Notre Histoire & Nos Engagements
           </span>
-          <h1 className="about-hero-title">Qui Sommes Nous ?</h1>
-          <p className="about-hero-desc">
-            Agence de voyage locale francophone en Inde et au Népal. Découvrez l'équipe passionnée et l'histoire qui anime Jodhpur Voyage depuis plus de 20 ans.
-          </p>
+          <h1 className="about-hero-title">{content.heroTitle}</h1>
+          <p className="about-hero-desc">{content.heroDesc}</p>
         </div>
       </section>
 
@@ -47,7 +84,7 @@ export default function QuiNousSommesPage() {
 
             <div className="about-image-wrapper">
               <img
-                src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-9.jpg"
+                src={content.heroImage}
                 onError={(e) => { e.target.src = '/images/image-9.jpg'; }}
                 alt="Jodhpur Voyage Architecture"
                 className="about-image"
@@ -73,13 +110,9 @@ export default function QuiNousSommesPage() {
                 <span className="section-subtitle"><i className="fas fa-quote-left"></i> Le Mot du Fondateur</span>
                 <h2 className="section-title about-title">Notre Philosophie</h2>
 
-                <blockquote className="founder-quote">
-                  « Passionné par mon pays et sa culture, j'ai obtenu mon master de tourisme à l'université de Jodhpur et j'ai débuté en tant que guide francophone pour les agences de voyages de Delhi. À la suite d'une rencontre avec une française et les liens d'amitié aidant, j'ai pu réaliser mon rêve et créer ma propre agence de voyage. Aujourd'hui, j'ai le plaisir de partager ce rêve avec mon équipe et mes clients. »
-                </blockquote>
+                <blockquote className="founder-quote">{content.founderQuote}</blockquote>
 
-                <p className="founder-desc">
-                  Le projet naît d'un désir de s'ouvrir au monde et de partager la culture et les paysages de l'Inde. Notre pays, mystérieux et paradoxal, fascine par sa culture, sa diversité, la coexistence entre ses multiples religions, ses centaines de langues et dialectes. Ses paysages très variés entre plaines, déserts, montagnes et océans continuent de nous fasciner tout autant que vous.
-                </p>
+                <p className="founder-desc">{content.founderDesc}</p>
 
                 <p className="founder-desc">
                   Nous savons que vous pourrez parfois être surpris, mais nous sommes persuadés que vous ne resterez pas indifférent. C'est avec une grande passion, un professionnalisme et un amour profond pour l'Inde que notre équipe vous fait découvrir ce pays.

@@ -1,32 +1,60 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams, usePathname } from 'next/navigation';
 
 export default function TourRajasthanDetailPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const slugParam = searchParams?.get('slug') || searchParams?.get('id') || pathname?.split?.('/').pop();
+  const [tour, setTour] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchTour = async () => {
+      try {
+        if (!slugParam) return;
+        const byId = await fetch(`http://localhost:5000/api/v1/tours/${slugParam}`);
+        if (byId.ok) {
+          const json = await byId.json();
+          if (mounted) setTour(json?.data || json);
+          return;
+        }
+        const bySlug = await fetch(`http://localhost:5000/api/v1/tours?slug=${encodeURIComponent(slugParam)}`);
+        if (bySlug.ok) {
+          const json = await bySlug.json();
+          const item = json?.data?.data?.[0] || json?.data?.[0] || (Array.isArray(json) ? json[0] : null);
+          if (mounted && item) setTour(item);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch tour', err.message || err);
+      }
+    };
+    fetchTour();
+    return () => { mounted = false; };
+  }, [slugParam]);
 
   return (
     <main>
       {/* Tour Detail Hero */}
       <section className="tour-detail-hero">
         <img
-          src="https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-6.jpg"
-          onError={(e) => { e.target.src = '/images/image-6.jpg'; }}
-          alt="Rajasthan Detail"
+          src={tour?.image || 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-6.jpg'}
+          onError={(e) => { e.target.src = tour?.fallbackImg || '/images/image-6.jpg'; }}
+          alt={tour?.title || 'Rajasthan Detail'}
           className="tour-detail-hero-bg"
         />
         <div className="container tour-detail-hero-content">
           <span className="hero-badge">
-            <i className="fas fa-star"></i> Incontournable
+            <i className="fas fa-star"></i> {tour?.tag || 'Incontournable'}
           </span>
-          <h1 className="tour-detail-title">
-            Séjour au Rajasthan et Bénarès – Le Rajasthan et la rivière Gange
-          </h1>
+          <h1 className="tour-detail-title">{tour?.title || 'Séjour au Rajasthan et Bénarès – Le Rajasthan et la rivière Gange'}</h1>
           <div className="tour-detail-meta">
-            <span><i className="far fa-clock"></i> 14 Jours / 13 Nuits</span>
-            <span><i className="fas fa-user-friends"></i> Privatif avec Chauffeur</span>
-            <span><i className="fas fa-map-marker-alt"></i> Delhi - Jaïpur - Jodhpur - Udaipur - Agra - Varanasi</span>
+            <span><i className="far fa-clock"></i> {tour?.duration || '14 Jours / 13 Nuits'}</span>
+            <span><i className="fas fa-user-friends"></i> {tour?.groupType || 'Privatif avec Chauffeur'}</span>
+            <span><i className="fas fa-map-marker-alt"></i> {tour?.route || tour?.locations || 'Delhi - Jaïpur - Jodhpur - Udaipur - Agra - Varanasi'}</span>
           </div>
         </div>
       </section>
@@ -41,47 +69,59 @@ export default function TourRajasthanDetailPage() {
             </p>
 
             <div className="itinerary-timeline">
-              <div className="itinerary-day-card">
-                <strong className="itinerary-day-title">Jour 1 - 2 : Arrivée à Delhi & Visite du Vieux Delhi</strong>
-                <p className="itinerary-day-desc">
-                  Accueil à l'aéroport par notre équipe locale. Découverte de la Grande Mosquée Jama Masjid, bazar de Chandni Chowk en rickshaw et Qutub Minar.
-                </p>
-              </div>
+              {Array.isArray(tour?.itinerary) && tour.itinerary.length > 0 ? (
+                tour.itinerary.map((day, i) => (
+                  <div className="itinerary-day-card" key={i}>
+                    <strong className="itinerary-day-title">{day.title || `Jour ${i + 1}`}</strong>
+                    <p className="itinerary-day-desc">{day.content || day.desc || day.description || ''}</p>
+                  </div>
+                ))
+              ) : (
+                // fallback static itinerary
+                <>
+                  <div className="itinerary-day-card">
+                    <strong className="itinerary-day-title">Jour 1 - 2 : Arrivée à Delhi & Visite du Vieux Delhi</strong>
+                    <p className="itinerary-day-desc">
+                      Accueil à l'aéroport par notre équipe locale. Découverte de la Grande Mosquée Jama Masjid, bazar de Chandni Chowk en rickshaw et Qutub Minar.
+                    </p>
+                  </div>
 
-              <div className="itinerary-day-card">
-                <strong className="itinerary-day-title">Jour 3 - 5 : La Cité Rose de Jaïpur & Le Fort d'Amber</strong>
-                <p className="itinerary-day-desc">
-                  Route vers Jaïpur. Visite du Fort d'Amber à dos d'éléphant ou en 4x4, le Palais des Vents (Hawa Mahal) et le City Palace.
-                </p>
-              </div>
+                  <div className="itinerary-day-card">
+                    <strong className="itinerary-day-title">Jour 3 - 5 : La Cité Rose de Jaïpur & Le Fort d'Amber</strong>
+                    <p className="itinerary-day-desc">
+                      Route vers Jaïpur. Visite du Fort d'Amber à dos d'éléphant ou en 4x4, le Palais des Vents (Hawa Mahal) et le City Palace.
+                    </p>
+                  </div>
 
-              <div className="itinerary-day-card">
-                <strong className="itinerary-day-title">Jour 6 - 7 : Jodhpur – La Cité Bleue & Fort Mehrangarh</strong>
-                <p className="itinerary-day-desc">
-                  Exploration de la majestueuse forteresse de Mehrangarh surplombant la ville bleue. Rencontre avec la communauté rurale Bishnoï.
-                </p>
-              </div>
+                  <div className="itinerary-day-card">
+                    <strong className="itinerary-day-title">Jour 6 - 7 : Jodhpur – La Cité Bleue & Fort Mehrangarh</strong>
+                    <p className="itinerary-day-desc">
+                      Exploration de la majestueuse forteresse de Mehrangarh surplombant la ville bleue. Rencontre avec la communauté rurale Bishnoï.
+                    </p>
+                  </div>
 
-              <div className="itinerary-day-card">
-                <strong className="itinerary-day-title">Jour 8 - 9 : Agra & Le Taj Mahal</strong>
-                <p className="itinerary-day-desc">
-                  Route vers Agra avec halte à la cité fantôme de Fatehpur Sikri. Émerveillement devant le Taj Mahal au lever du soleil.
-                </p>
-              </div>
+                  <div className="itinerary-day-card">
+                    <strong className="itinerary-day-title">Jour 8 - 9 : Agra & Le Taj Mahal</strong>
+                    <p className="itinerary-day-desc">
+                      Route vers Agra avec halte à la cité fantôme de Fatehpur Sikri. Émerveillement devant le Taj Mahal au lever du soleil.
+                    </p>
+                  </div>
 
-              <div className="itinerary-day-card">
-                <strong className="itinerary-day-title">Jour 10 - 12 : Varanasi (Bénarès) & Le Gange Sacré</strong>
-                <p className="itinerary-day-desc">
-                  Vol intérieur pour Varanasi. Promenade en barque sur le Gange à l'aube et cérémonies de l'Aarti du soir au bord du fleuve.
-                </p>
-              </div>
+                  <div className="itinerary-day-card">
+                    <strong className="itinerary-day-title">Jour 10 - 12 : Varanasi (Bénarès) & Le Gange Sacré</strong>
+                    <p className="itinerary-day-desc">
+                      Vol intérieur pour Varanasi. Promenade en barque sur le Gange à l'aube et cérémonies de l'Aarti du soir au bord du fleuve.
+                    </p>
+                  </div>
 
-              <div className="itinerary-day-card">
-                <strong className="itinerary-day-title">Jour 13 - 14 : Retour à Delhi & Vol International</strong>
-                <p className="itinerary-day-desc">
-                  Retour à Delhi pour vos achats de souvenirs et transfert à l'aéroport international pour votre vol retour.
-                </p>
-              </div>
+                  <div className="itinerary-day-card">
+                    <strong className="itinerary-day-title">Jour 13 - 14 : Retour à Delhi & Vol International</strong>
+                    <p className="itinerary-day-desc">
+                      Retour à Delhi pour vos achats de souvenirs et transfert à l'aéroport international pour votre vol retour.
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 

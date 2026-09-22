@@ -15,11 +15,37 @@ export default function ContactPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (parseInt(captchaAnswer, 10) !== captchaNum1 + captchaNum2) {
-      alert(`Anti-Spam incorrect! ${captchaNum1} + ${captchaNum2} = ${captchaNum1 + captchaNum2}`);
-      return;
-    }
-    setFormSubmitted(true);
+    const submit = async () => {
+      if (parseInt(captchaAnswer, 10) !== captchaNum1 + captchaNum2) {
+        alert(`Anti-Spam incorrect! ${captchaNum1} + ${captchaNum2} = ${captchaNum1 + captchaNum2}`);
+        return;
+      }
+      try {
+        const payload = {
+          name: fullName,
+          email,
+          phone,
+          message,
+          type: 'General Contact'
+        };
+        const res = await fetch('http://localhost:5000/api/v1/enquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err?.message || 'Failed to submit enquiry');
+        }
+        setFormSubmitted(true);
+        // Optionally clear form
+        setFullName(''); setEmail(''); setPhone(''); setMessage(''); setCaptchaAnswer('');
+      } catch (err) {
+        console.error('Enquiry submit failed', err);
+        alert('Failed to send enquiry. Please try again or contact us on WhatsApp.');
+      }
+    };
+    submit();
   };
 
   return (

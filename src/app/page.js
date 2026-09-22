@@ -25,7 +25,7 @@ export default function HomePage() {
   const [captchaNum2] = useState(4);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const heroSlides = [
+  const [heroSlides, setHeroSlides] = useState([
     {
       bg: 'https://www.jodhpurvoyage.com/wp-content/uploads/2025/08/image-9.jpg',
       fallbackBg: '/images/hero-tiger.jpg',
@@ -53,7 +53,40 @@ export default function HomePage() {
       subtitle: 'du Népal',
       desc: "Des vallées sacrées de Katmandou aux sommets mythiques de l'Himalaya, vivez une immersion culturelle et humaine inoubliable.",
     },
-  ];
+  ]);
+
+  // Load hero slider from backend (admin-managed) and merge with defaults
+  useEffect(() => {
+    let mounted = true;
+    const fetchSlider = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/v1/content/hero-slider');
+        if (!mounted) return;
+        const json = await res.json();
+        const payload = json?.data || json?.data?.data || json;
+        const slider = payload || null;
+        if (slider && slider.slides && Array.isArray(slider.slides) && slider.slides.length > 0) {
+          const mapped = slider.slides.map((s) => ({
+            bg: s.image || s.bg || '',
+            fallbackBg: '/images/hero-tiger.jpg',
+            badgeIcon: 'fa-crown',
+            badge: s.eyebrow || '',
+            title: s.title || '',
+            subtitle: s.titleHighlight || '',
+            desc: slider.sharedMode ? (slider.shared?.description || '') : (s.description || ''),
+          }));
+          setHeroSlides(mapped);
+        }
+      } catch (err) {
+        // keep defaults on error
+        console.warn('Hero slider fetch failed:', err.message || err);
+      }
+    };
+    fetchSlider();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const popularDestinations = [
     { title: 'Rajasthan', image: '/images/dest-rajasthan.jpg', link: '/destinations/rajasthan' },
@@ -69,6 +102,58 @@ export default function HomePage() {
     { title: 'Goa', image: '/images/dest-goa.jpg', link: '/destinations' },
     { title: 'Jodhpur', image: '/images/dest-jodhpur.jpg', link: '/destinations/rajasthan' },
   ];
+
+  const [remotePopularDestinations, setRemotePopularDestinations] = useState([]);
+  const [remotePopularTours, setRemotePopularTours] = useState([]);
+  const [remoteTestimonials, setRemoteTestimonials] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchData = async () => {
+      try {
+        // Popular destinations
+        const respDest = await fetch('http://localhost:5000/api/v1/destination-categories');
+        const jsonDest = await respDest.json();
+        const payloadDest = jsonDest?.data || jsonDest;
+        const listDest = Array.isArray(payloadDest.data) ? payloadDest.data : (Array.isArray(payloadDest) ? payloadDest : []);
+        if (mounted && listDest.length) {
+          setRemotePopularDestinations(listDest.slice(0, 12).map((c) => ({ title: c.name || c.title, image: c.image || '/images/dest-rajasthan.jpg', link: `/destinations/${c.slug || c._id}` })));
+        }
+
+        // Popular tours
+        const respTours = await fetch('http://localhost:5000/api/v1/tours');
+        const jsonTours = await respTours.json();
+        const payloadTours = jsonTours?.data || jsonTours;
+        const listTours = Array.isArray(payloadTours.data) ? payloadTours.data : (Array.isArray(payloadTours) ? payloadTours : []);
+        if (mounted && listTours.length) {
+          setRemotePopularTours(listTours.slice(0, 6).map((t) => ({
+            image: t.image || '/images/image-6.jpg',
+            fallbackImg: '/images/image-6.jpg',
+            badge: t.tag || 'Populaire',
+            duration: t.duration || '',
+            location: t.cityName || t.location || '',
+            title: t.title || t.name || '',
+            excerpt: t.overview || t.summary || '',
+            price: t.price || 'Sur Demande',
+            link: `/tours/${t.slug || t._id}`,
+          })));
+        }
+
+        // Testimonials / commentaires
+        const respRev = await fetch('http://localhost:5000/api/v1/commentaires');
+        const jsonRev = await respRev.json();
+        const payloadRev = jsonRev?.data || jsonRev;
+        const listRev = Array.isArray(payloadRev.data) ? payloadRev.data : (Array.isArray(payloadRev) ? payloadRev : []);
+        if (mounted && listRev.length) {
+          setRemoteTestimonials(listRev.slice(0, 6).map((r) => ({ quote: r.comment || r.excerpt || '', author: r.author || r.name || 'Voyageur', trip: r.trip || r.tour || '', stars: r.stars || r.rating || 5 })));
+        }
+      } catch (err) {
+        console.warn('Home fetches failed', err.message || err);
+      }
+    };
+    fetchData();
+    return () => { mounted = false; };
+  }, []);
 
   const popularTours = [
     {
@@ -223,6 +308,10 @@ export default function HomePage() {
       ? regionCards
       : regionCards.filter((card) => card.category === activeFilter);
 
+  const sourcePopularDestinations = remotePopularDestinations && remotePopularDestinations.length ? remotePopularDestinations : popularDestinations;
+  const sourcePopularTours = remotePopularTours && remotePopularTours.length ? remotePopularTours : popularTours;
+  const sourceTestimonials = remoteTestimonials && remoteTestimonials.length ? remoteTestimonials : testimonials;
+
   const handleBookingSubmit = (e) => {
     e.preventDefault();
     if (parseInt(captchaAnswer, 10) !== captchaNum1 + captchaNum2) {
@@ -338,7 +427,7 @@ export default function HomePage() {
 
           <div className="destinations-carousel-container">
             <div className="destinations-track" ref={destScrollRef}>
-              {popularDestinations.map((dest, idx) => (
+              {sourcePopularDestinations.map((dest, idx) => (
                 <div className="destination-card" key={idx}>
                   <img src={dest.image} alt={dest.title} />
                   <div className="destination-card-overlay">
@@ -485,7 +574,7 @@ export default function HomePage() {
           </div>
 
           <div className="tours-grid">
-            {popularTours.map((tour, idx) => (
+            {sourcePopularTours.map((tour, idx) => (
               <div className="tour-card" key={idx}>
                 <Link href={tour.link} className="tour-card-image-wrap" title="Voir l'itinéraire">
                   <img
@@ -742,7 +831,7 @@ export default function HomePage() {
           <div className="quote-icon"><i className="fas fa-quote-left"></i></div>
 
           <div className="testimonial-slider">
-            {testimonials.map((item, idx) => (
+            {sourceTestimonials.map((item, idx) => (
               <div className={`testimonial-item ${idx === activeTestimonial ? 'active' : ''}`} key={idx}>
                 <p className="testimonial-text">{item.quote}</p>
                 <div className="testimonial-author">
@@ -941,19 +1030,19 @@ export default function HomePage() {
                       <div>
                         <label className="form-label">Adultes</label>
                         <select className="form-control" value={adultsCount} onChange={(e) => setAdultsCount(parseInt(e.target.value, 10))}>
-                          {[1,2,3,4,5,6,7,8,9,10].map(num => <option key={num} value={num}>{num}</option>)}
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => <option key={num} value={num}>{num}</option>)}
                         </select>
                       </div>
                       <div>
                         <label className="form-label">Enfants (2-11)</label>
                         <select className="form-control" value={childrenCount} onChange={(e) => setChildrenCount(parseInt(e.target.value, 10))}>
-                          {[0,1,2,3,4].map(num => <option key={num} value={num}>{num}</option>)}
+                          {[0, 1, 2, 3, 4].map(num => <option key={num} value={num}>{num}</option>)}
                         </select>
                       </div>
                       <div>
                         <label className="form-label">Bébés (&lt;2)</label>
                         <select className="form-control" value={babiesCount} onChange={(e) => setBabiesCount(parseInt(e.target.value, 10))}>
-                          {[0,1,2,3].map(num => <option key={num} value={num}>{num}</option>)}
+                          {[0, 1, 2, 3].map(num => <option key={num} value={num}>{num}</option>)}
                         </select>
                       </div>
                       <div>

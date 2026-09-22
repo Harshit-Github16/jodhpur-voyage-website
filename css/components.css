@@ -344,6 +344,149 @@
   gap: 2rem;
 }
 
+/* --------------------------------------------------------------------------
+   Page Banner / Hero (used by /commentaires and other pages)
+   -------------------------------------------------------------------------- */
+.page-banner-section {
+  position: relative;
+  width: 100%;
+  height: clamp(280px, 36vh, 520px);
+  overflow: hidden;
+  display: block;
+}
+
+.page-banner-section .page-banner-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+.page-banner-section .page-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0.36), rgba(0,0,0,0.12));
+  z-index: 1;
+}
+
+.page-banner-section .page-banner-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1.25rem 1rem;
+}
+
+.page-banner-section .page-banner-title {
+  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
+  line-height: 1.05;
+  margin: 0 0 0.25rem 0;
+  color: #fff;
+}
+
+/* Small pill badge shown above the title */
+.page-banner-section .banner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  padding: 0.45rem 1.05rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+.page-banner-section .page-banner-desc {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.92);
+  margin: 0 auto;
+  max-width: 880px;
+}
+
+/* Make the hero image slightly dimmer so white text reads better when centered */
+.page-banner-section .page-banner-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.08);
+  pointer-events: none;
+}
+
+/* Tweak: make hero slightly shorter to match reference */
+.page-banner-section {
+  height: clamp(220px, 28vh, 420px);
+}
+
+/* Reviews overview centered card */
+.reviews-overview-section .reviews-overview-grid {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1.6rem;
+  padding: 2rem 0;
+}
+
+.reviews-overview-section .reviews-overview-grid > .metrics-col {
+  flex: 1 1 640px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reviews-overview-section .reviews-overview-grid > .badges-col {
+  flex: 1 1 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reviews-overview-card {
+  width: 100%;
+  background: var(--color-cream);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  padding: 1.6rem;
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.metric-card {
+  background: #fff;
+  padding: 1.1rem 1.2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-dark);
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  color: #6b7777;
+}
+
 .mega-grid-2col {
   display: grid;
   grid-template-columns: 1.8fr 1fr;

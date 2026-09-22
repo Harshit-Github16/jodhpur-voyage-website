@@ -263,7 +263,7 @@ export default function VoyageSurMesurePage() {
                         name="destination"
                         value={item.val}
                         checked={destinations.includes(item.val)}
-                        onChange={() => {}}
+                        onChange={() => { }}
                       />
                       <span><i className={`fas ${item.icon}`}></i> {item.val}</span>
                     </label>
@@ -317,7 +317,7 @@ export default function VoyageSurMesurePage() {
                           name="budget"
                           value={b}
                           checked={budget === b}
-                          onChange={() => {}}
+                          onChange={() => { }}
                         />
                         <span>{b}</span>
                       </label>

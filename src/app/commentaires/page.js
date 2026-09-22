@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function CommentairesPage() {
@@ -100,7 +100,47 @@ export default function CommentairesPage() {
     },
   ];
 
-  const filteredReviews = reviewsList.filter((rev) => {
+  const [remoteReviews, setRemoteReviews] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchReviews = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/v1/commentaires');
+        const json = await res.json();
+        const payload = json?.data || json;
+        const list = Array.isArray(payload.data) ? payload.data : (Array.isArray(payload) ? payload : []);
+        if (mounted && list.length) setRemoteReviews(list.map((r) => {
+          const authorName = typeof r.author === 'string' ? r.author : (r.author && r.author.name) || r.name || 'Voyageur';
+          const avatarVal = (r.author && typeof r.author === 'object' && r.author.avatar) || r.avatar || (authorName ? authorName[0] : 'V');
+          const categoryVal = typeof r.category === 'string' ? r.category : (Array.isArray(r.tags) ? r.tags[0] : (r.category && r.category.name) || 'general');
+          const tagVal = r.tag || (typeof r.category === 'string' ? r.category : (r.category && r.category.name)) || (Array.isArray(r.tags) ? r.tags[0] : '');
+          return {
+            category: categoryVal,
+            title: r.title || r.subject || '',
+            stars: r.stars || r.rating || 5,
+            image: r.image || r.photo || '/images/dest-jodhpur.jpg',
+            fallbackImg: '/images/dest-jodhpur.jpg',
+            tag: tagVal,
+            tagIcon: 'fa-star',
+            excerpt: r.comment || r.excerpt || '',
+            author: authorName,
+            avatar: avatarVal,
+            date: r.date || '',
+            link: r.link || '/tours',
+          };
+        }));
+      } catch (err) {
+        console.warn('Failed to fetch commentaires', err.message || err);
+      }
+    };
+    fetchReviews();
+    return () => { mounted = false; };
+  }, []);
+
+  const sourceReviews = remoteReviews && remoteReviews.length ? remoteReviews : reviewsList;
+
+  const filteredReviews = sourceReviews.filter((rev) => {
     const matchesCategory = activeCategory === 'all' || rev.category === activeCategory;
     const matchesSearch =
       searchQuery.trim() === '' ||
@@ -113,21 +153,22 @@ export default function CommentairesPage() {
   return (
     <main>
       {/* HERO BANNER */}
-      <section className="page-banner-section">
-        <img
-          src="https://www.jodhpurvoyage.com/wp-content/uploads/2026/07/Voyage-Jaisalmer.jpg"
-          onError={(e) => { e.target.src = '/images/dest-jodhpur.jpg'; }}
-          alt="Avis Voyageurs Banner"
+      <section className="page-banner-section commentaires">
+        <div
           className="page-banner-bg"
+          style={{
+            backgroundImage: `url(https://www.jodhpurvoyage.com/wp-content/uploads/2026/07/Voyage-Jaisalmer.jpg)`,
+          }}
         />
         <div className="page-banner-overlay"></div>
         <div className="container page-banner-content">
           <span className="banner-badge">
-            <i className="fas fa-star"></i> 4.9/5 sur TripAdvisor & Trustpilot
+            <i className="fas fa-star"></i>
+            RETOURS D'EXPÉRIENCE
           </span>
-          <h1 className="page-banner-title">Avis & Commentaires des Voyageurs</h1>
+          <h1 className="page-banner-title">Vos Avis & Commentaires</h1>
           <p className="page-banner-desc">
-            Découvrez les retours d'expérience authentiques des voyageurs ayant exploré l'Inde et le Népal avec Jodhpur Voyage.
+            La confiance et la satisfaction de nos voyageurs francophones sont notre plus grande fierté.
           </p>
         </div>
       </section>
@@ -239,7 +280,7 @@ export default function CommentairesPage() {
                     <i className={`fas ${rev.tagIcon}`}></i> {rev.tag}
                   </span>
                 </div>
-                <div className="tour-card-body" style={{ display: 'flex', flexDirection: 'column', justifyBetween: 'space-between', padding: '1.5rem' }}>
+                <div className="tour-card-body" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '1.5rem' }}>
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
                       <h3 className="tour-card-title" style={{ fontSize: '1.1rem', margin: 0 }}>
