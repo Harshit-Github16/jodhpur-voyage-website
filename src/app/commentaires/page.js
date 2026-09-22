@@ -156,11 +156,26 @@ export default function CommentairesPage() {
           if (Array.isArray(slide)) slide = slide[0] || null;
         }
 
+        // If the API returned the slider doc (with .slides array), pick first slide
+        if (slide && typeof slide === 'object' && Array.isArray(slide.slides) && slide.slides.length > 0) {
+          slide = slide.slides[0];
+        }
+
+        // If still not a slide but we have shared content (singleton slider), use shared fields
+        if (!slide && payload && typeof payload === 'object' && payload.shared) {
+          slide = {
+            image: payload.shared.image || payload.shared.bannerImage || '',
+            title: payload.shared.title || payload.shared.description || 'Vos Avis & Commentaires',
+            badge: (payload.shared.tags && payload.shared.tags[0]) || 'RETOURS D\'EXPÉRIENCE',
+            description: payload.shared.description || ''
+          };
+        }
+
         if (mounted && slide) {
           const image = slide.image || slide.photo || slide.background || slide.imageUrl || slide.src || '';
           const title = slide.title || slide.heading || slide.name || 'Vos Avis & Commentaires';
-          const badge = slide.badge || slide.tag || 'RETOURS D\'EXPÉRIENCE';
-          const desc = slide.excerpt || slide.description || slide.subtitle || 'La confiance et la satisfaction de nos voyageurs francophones sont notre plus grande fierté.';
+          const badge = slide.badge || slide.tag || (slide.tags && slide.tags[0]) || 'RETOURS D\'EXPÉRIENCE';
+          const desc = slide.excerpt || slide.description || slide.subtitle || slide.description || 'La confiance et la satisfaction de nos voyageurs francophones sont notre plus grande fierté.';
           setHeroData({ image, title, badge, desc });
         }
       } catch (err) {
