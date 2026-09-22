@@ -88,16 +88,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-outline {
-  background-color: #ffffff;
+  background-color: var(--color-primary);
   color: var(--color-primary);
   border: 1.5px solid var(--color-primary);
   transition: all 0.2s ease-in-out;
 }
-.btn-outline:hover {
-  background-color: var(--color-primary);
-  color: #ffffff;
-  transform: translateY(-2px);
-}
+
 
 /* Section Header Styling */
 .section-subtitle {

@@ -1650,6 +1650,66 @@
   margin: 0 auto;
 }
 
+/* Improve readability: add subtle inner box behind CTA text */
+.cta-content .cta-inner {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.38);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+}
+
+.cta-content .cta-inner .cta-title,
+.cta-content .cta-inner .cta-subtitle,
+.cta-content .cta-inner .cta-description {
+  color: #FFFFFF;
+}
+
+/* Ensure all CTA inner text is fully white for contrast */
+.cta-content .cta-inner {
+  color: #FFFFFF;
+}
+
+/* Force white text in measurement CTA callout (voyage-sur-mesure) and reviews CTA */
+.mesure-cta-callout,
+.mesure-cta-callout *,
+.reviews-cta-card,
+.reviews-cta-card * {
+  color: #FFFFFF !important;
+  margin-top: 1.5rem !important;
+}
+
+.cta-title {
+  text-shadow: 0 6px 20px rgba(0,0,0,0.8);
+}
+
+.cta-description {
+  color: #F6F9F9;
+}
+
+/* Fix: ensure CTA content stays above rounded footer elements and buttons centered */
+.cta-banner-section .cta-content {
+  padding: 1.2rem 1rem;
+}
+
+.cta-banner-section .cta-buttons {
+  margin-top: 0.6rem;
+  justify-content: center;
+}
+
+/* Ensure large rounded footer blocks don't overlap main content on small screens */
+.cta-banner-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  height: 120px;
+  background: linear-gradient(180deg, rgba(18,31,32,0) 0%, rgba(18,31,32,0.03) 40%, rgba(18,31,32,0.08) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
 .cta-badge {
   display: inline-flex;
   align-items: center;
@@ -4557,8 +4617,21 @@ a.review-card {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
+  background-position: center center;
+  background-size: cover;
   opacity: 0.18;
   pointer-events: none;
+}
+
+/* Ensure any img used as background fills and is centered */
+.reviews-cta-card img.reviews-cta-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  position: absolute;
+  inset: 0;
 }
 
 .reviews-cta-content {
@@ -4566,6 +4639,27 @@ a.review-card {
   z-index: 2;
   max-width: 720px;
   margin: 0 auto;
+}
+
+/* Fix multi-step footer/button placement: ensure CTA doesn't overlap form controls */
+.reviews-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  padding: 2rem 2rem;
+}
+
+.reviews-cta-content .btn-next-step,
+.reviews-cta-card .btn-next-step {
+  margin: 0 auto;
+  display: inline-flex;
+}
+
+.btn-next-step {
+  padding: 0.9rem 1.4rem;
+  border-radius: 10px;
+  font-weight: 700;
 }
 
 .reviews-cta-subtitle {
@@ -5593,6 +5687,27 @@ a.review-card {
   gap: 1.2rem;
   box-shadow: 0 15px 35px rgba(26, 43, 44, 0.22);
   margin-top: 2rem;
+}
+
+/* Improve hero readability: add subtle dark overlay box behind text */
+.mesure-hero-content .mesure-hero-inner {
+  display: inline-block;
+  background: rgba(0,0,0,0.45);
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  color: var(--color-white);
+}
+
+/* Reduce reviews-cta-card height on this page to avoid overlapping form */
+.form-card-container .reviews-cta-card {
+  padding: 1.6rem 1.4rem;
+  min-height: 0;
+  box-shadow: 0 10px 24px rgba(26,43,44,0.12);
+}
+
+/* Ensure next-step button floats slightly above the card and is centered */
+.form-card-container .btn-next-step {
+  transform: translateY(-6px);
 }
 
 .cta-callout-icon {

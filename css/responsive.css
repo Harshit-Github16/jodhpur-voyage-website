@@ -732,7 +732,15 @@
   }
 
   .reviews-cta-card {
-    padding: 2.2rem 1.2rem;
+    padding: 2rem 1rem;
+    /* margin-top: 1.5rem !important; */
+  }
+
+  /* Ensure CTA / multi-step footer buttons remain visible on small screens */
+  .reviews-cta-card .btn-next-step {
+    width: auto;
+    display: inline-flex;
+    margin: 0 auto;
   }
 
   .contact-form-card {
@@ -802,6 +810,19 @@
     flex-direction: column;
     text-align: center;
     padding: 1rem;
+  }
+  .mesure-hero-section {
+    padding: 2.4rem 0 1.2rem;
+  }
+
+  .reviews-cta-card {
+    margin-top: 1.2rem;
+  }
+
+  /* On small screens make sure CTA doesn't overlap the form footer */
+  .form-card-container .reviews-cta-card {
+    position: relative;
+    z-index: 2;
   }
 }
 
